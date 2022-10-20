@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout "
+	layout:decorate="~{layout.html}">
+
+
+
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${#lists.isEmpty(listEvent)}">
+		Nenhum evento encontrado
+	</div>
+	<div class="alert alert-primary" th:if="${messagem != null}" th:text="${messagem}">
+	</div>
+	
+	<div class="card mb-3">
+		<div class="card-body">
+			<form method="get">
+				<div class="form-group mb-3">
+					<label for="name">Nome</label>
+					<input class="form-control" type="text" name="name" th:value="${name}"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Pesquisar Evento</button>
+			</form>
+		</div>
+	</div>
+
+
+	<div th:if="${not #lists.isEmpty(listEvent)}">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Data inicial</th>
+					<th>Data final</th>
+					<th>Opções</th>
+				</tr>
+			</thead>
+			<tbody>
+			
+				<tr th:each="event : ${listEvent}">
+					<td th:text="${event.id}"></td>
+					<td th:text="${event.name}"></td>
+					<td th:text="${#dates.format(event.startDate, 'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(event.endDate, 'dd/MM/yyyy')}"></td>
+					<td><a class="btn btn-primary btn-sm" th:href="@{/event/edit(id=${event.id})}">Editar</a></td>
+					<td><a class="btn btn-primary btn-sm" th:href="@{/event/delete(id=${event.id})}">Excluir</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+</html>

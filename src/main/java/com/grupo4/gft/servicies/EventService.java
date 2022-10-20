@@ -11,31 +11,44 @@ import com.grupo4.gft.repositories.EventRepository;
 
 @Service
 public class EventService {
-	
+
 	@Autowired
 	private EventRepository eventRepository;
-	
+
 	public void saveEvent(Event event) {
 		eventRepository.save(event);
 	}
-	
-	public List<Event> listAllEvent(){
-		return eventRepository.findAll();
-	}
-	
+
 	public void deleteEvent(Long id) {
 		eventRepository.deleteById(id);
 	}
 
 	public Event getEvent(Long id) throws Exception {
-		
-     Optional<Event> event= eventRepository.findById(id);
-		
-		if(event.isEmpty()) {
+
+		Optional<Event> event = eventRepository.findById(id);
+
+		if (event.isEmpty()) 
 			throw new Exception("Evento não encontrado");
-			
-		}
+
+		
 		return event.get();
+	}
+
+	public List<Event> listAllEvent() {
+		return eventRepository.findAll();
+	}
+
+	public List<Event> findEventByName(String name) {
+		return eventRepository.findByNameContains(name);
+
+	}
+
+	public List<Event> findEvent(String name) {
+
+		if (name != null)
+			return findEventByName(name);
+
+		return listAllEvent();
 	}
 
 }

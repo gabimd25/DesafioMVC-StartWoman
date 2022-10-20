@@ -80,17 +80,17 @@ public class EventController {
 	}
 	
 	@RequestMapping("list")
-	public ModelAndView listAllevent() {
-		ModelAndView mv = new ModelAndView("event/listEvent.html");
+	public ModelAndView listEvent(String name) {
+		ModelAndView mv = new ModelAndView("event/menuPage.html");
 		
-		mv.addObject("listEvent", eventService.listAllEvent());
+		mv.addObject("listEvent", eventService.findEvent(name));
 		
 		return mv;
 	}
 	
 
 	@RequestMapping("/delete")
-	public ModelAndView deleteevent(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+	public ModelAndView deleteEvent(@RequestParam Long id, RedirectAttributes redirectAttributes) {
 		
 		ModelAndView mv= new ModelAndView("redirect:/event/list");
 		
@@ -109,11 +109,11 @@ public class EventController {
 		
 	}
 	
-	@RequestMapping
-	public ModelAndView showMenuPage() {
-		ModelAndView mv = new ModelAndView("event/menuPage.html");
+	
+	
 		
-		return mv;
-	}
+	
+	
+	
 
 }
