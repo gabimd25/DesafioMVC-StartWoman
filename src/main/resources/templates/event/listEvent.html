@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="alert alert-primary" th:if= "${#lists.isEmpty(listEvent)}">
+		Nenhum evento encontrado
+	</div>
+	<div class = "alert alert-primary" th:if="${messagem != null}" th:text= "${messagem}">
+	</div>
+	<div th:if="${not #lists.isEmpty(listEvent)}">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Data inicial</th>
+					<th>Data final</th>
+					<th>Opções</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="event : ${listEvent}">
+					<td th:text= "${event.id}"></td>
+					<td th:text= "${event.name}"></td>
+					<td th:text= "${event.startDate}"></td>
+					<td th:text= "${event.endDate}"></td>
+					<td><a class= "btn btn-primary btn-sm" th:href="@{/event/edit(id=${event.id})}">Editar</a></td>
+					<td><a class= "btn btn-primary btn-sm" th:href="@{/event/delete(id=${event.id})}">Excluir</a></td>
+				</tr>
+			</tbody>
+		</table>
+	
+	</div>
+
+</body>
+
+</html>
