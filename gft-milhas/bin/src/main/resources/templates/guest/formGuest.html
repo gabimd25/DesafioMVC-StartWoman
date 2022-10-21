@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout "
+    layout:decorate="~{layout.html}">
+    
+<meta charset="UTF-8">
+
+	<div layout:fragment="content">
+		<div class="alert alert-primary" th:if="${message != null}" th:text="${message}">
+			Nenhum participante cadastrado
+		</div>
+		<div class="card">
+			<div class="card-header">
+				<p class="text-primary">Novo Participante</p>
+			</div>
+		</div>
+		<div class="card-body">
+		<form method="post" th:object="${guest}" th:action="@{/edit}">
+			<div class="form-group mb-3">
+				<label for="name">Nome</label>
+				<input class="form-control" type="text" th:field="*{name}" required></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			</div>
+			<div class="form-group mb-3">
+				<label for="email">E-mail</label>
+				<input class="form-control" type="email" th:field="*{email}" required></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+			</div>
+			<div class="form-group mb-3">
+				<label for="level">Nível</label>
+				<input class="form-control" type="text" th:field="*{level}" />
+				<div class="text-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></div>
+			</div>
+			<div class="form-group mb-3">
+				<label for="fourLetters">Quatro Letras</label>
+				<input class="form-control" type="text" th:field="*{fourLetters}" maxlength="4" required></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('fourLetters')}" th:errors="*{fourLetters}"></div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Cadastrar</button>
+		</form>
+		</div>
+	</div>
+
+</html>
