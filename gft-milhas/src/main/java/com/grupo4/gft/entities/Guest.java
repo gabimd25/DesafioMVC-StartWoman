@@ -11,27 +11,22 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="guest")
 public class Guest {
 	
 	@Id
-	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="name")	
+		
 	@NotEmpty(message="nome não pode ser vazio")
 	private String name;
 	
-	@Column(name="email", unique=true)
 	@Email
 	private String email;
 	
-	@Column(name="level")
 	@NotEmpty(message="Nível não pode ser vazio")
 	private String level;
 	
-	@Column(name="fourLetters", unique=true)
 	@NotEmpty(message="Quatro letras não pode ser vazio")
 	@Size(min=4, max=4, message="Deve ter quatro letras")
 	private String fourLetters;
