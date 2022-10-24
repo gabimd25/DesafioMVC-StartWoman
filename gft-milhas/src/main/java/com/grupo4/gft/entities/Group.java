@@ -1,9 +1,7 @@
 package com.grupo4.gft.entities;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,33 +10,30 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 @Entity
-public class Activity {
+public class Group {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-		
-	@NotEmpty(message="nome não pode ser vazio")
+	
+	@NotEmpty
 	private String name;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date startDate;
-	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date endDate;
+	private int amountPeople;
 	
 	@ManyToMany
-	private List<Guest> guestsFinished = new ArrayList<Guest>();
+	private List<Guest> participantes = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name="EVENT_ID")
 	private Event event;
+	
+	@OneToMany(mappedBy="group")
+	private List<Attendance> attendance = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -56,28 +51,20 @@ public class Activity {
 		this.name = name;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public int getAmountPeople() {
+		return amountPeople;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setAmountPeople(int amountPeople) {
+		this.amountPeople = amountPeople;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public List<Guest> getParticipantes() {
+		return participantes;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public List<Guest> getGuestsFinished() {
-		return guestsFinished;
-	}
-
-	public void setGuestsFinished(List<Guest> guestsFinished) {
-		this.guestsFinished = guestsFinished;
+	public void setParticipantes(List<Guest> participantes) {
+		this.participantes = participantes;
 	}
 
 	public Event getEvent() {
@@ -87,5 +74,15 @@ public class Activity {
 	public void setEvent(Event event) {
 		this.event = event;
 	}
-}
+
+	public List<Attendance> getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(List<Attendance> attendance) {
+		this.attendance = attendance;
+	}
 	
+	
+
+}
