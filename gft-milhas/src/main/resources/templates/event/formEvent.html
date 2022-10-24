@@ -30,8 +30,60 @@
 				<input type="hidden" th:field="*{endDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
 			</div>
+			<div>
+				<tr>
+					<th> Grupos do Evento </th>
+					<td><a class="btn btn-primary btn-sm" th:href="@{/group/edit(id=null, idEvent=${event.id})}">Criar
+							Grupo</a></td>
+				</tr>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
 
+					<tr th:each="group : ${event.groups}">
+						<td th:text="${group.id}"></td>
+						<td th:text="${group.name}"></td>
+						<td><a class="btn btn-primary btn-sm"
+								th:href="@{/group/edit(id=${group.id},idEvent=${event.id})}">Editar</a></td>
+						<td><a class="btn btn-primary btn-sm"
+								th:href="@{/group/delete(id=${group.id},idEvent=${event.id})}">Excluir</a></td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<tr>
+					<th> Atividades do Evento </th>
+					<td><a class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=null, idEvent=${event.id})}">Criar
+							Atividade</a></td>
+				</tr>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
 
+					<tr th:each="group : ${event.groups}">
+						<td th:text="${group.id}"></td>
+						<td th:text="${group.name}"></td>
+						<td><a class="btn btn-primary btn-sm"
+								th:href="@{/group/edit(id=${group.id},idEvent=${event.id})}">Editar</a></td>
+						<td><a class="btn btn-primary btn-sm"
+								th:href="@{/group/delete(id=${group.id},idEvent=${event.id})}">Excluir</a></td>
+					</tr>
+				</tbody>
+			</table>
 			<button type="submit" class="btn btn-primary">Cadastrar</button>
 		</form>
 	</div>

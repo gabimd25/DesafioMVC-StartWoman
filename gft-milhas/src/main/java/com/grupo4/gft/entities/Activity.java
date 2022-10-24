@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -40,6 +41,7 @@ public class Activity {
 	private List<Guest> guestsFinished = new ArrayList<Guest>();
 	
 	@ManyToOne
+	@JoinColumn(name="EVENT_ID")
 	private Event event;
 
 	public Long getId() {

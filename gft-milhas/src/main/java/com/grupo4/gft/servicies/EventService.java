@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo4.gft.entities.Event;
+import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.repositories.EventRepository;
+import com.grupo4.gft.repositories.GroupRepository;
 
 @Service
 public class EventService {
 
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@Autowired
+	private GroupRepository groupEventRepository;
 
 	public void saveEvent(Event event) {
 		eventRepository.save(event);
@@ -30,7 +35,6 @@ public class EventService {
 		if (event.isEmpty()) 
 			throw new Exception("Evento não encontrado");
 
-		
 		return event.get();
 	}
 
@@ -50,5 +54,6 @@ public class EventService {
 
 		return listAllEvent();
 	}
+
 
 }
