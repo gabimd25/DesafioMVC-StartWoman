@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,11 +34,11 @@ public class Event {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	
-	@OneToMany(mappedBy = "event")
-	private List<Group> groups = new ArrayList<>();
+	@OneToMany(mappedBy="event")
+	private List<GroupEvent> groups = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "event")
-	private List<Activity> activities; 
+	@OneToMany(mappedBy="event")
+	private List<Activity> activities = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -72,11 +72,11 @@ public class Event {
 		this.endDate = endDate;
 	}
 
-	public List<Group> getGroups() {
+	public List<GroupEvent> getGroups() {
 		return groups;
 	}
 
-	public void setGroups(List<Group> groups) {
+	public void setGroups(List<GroupEvent> groups) {
 		this.groups = groups;
 	}
 
@@ -88,10 +88,10 @@ public class Event {
 		this.activities = activities;
 	}
 	
-	
-	
-	
-
+	public void addGroup(GroupEvent group) {
+		this.groups.add(group);
 	}
+
+}
 	
 	

@@ -6,11 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Attendance {
-	
+public class Attendance {//Attendance
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -18,10 +19,11 @@ public class Attendance {
 	private Date date;
 	private String fourLetters;
 	private boolean attendance;
-	private boolean delay;
+	private boolean late;
 	
 	@ManyToOne
-	private Group group;
+	@JoinColumn(name="GROUP_ID")
+	private GroupEvent group;
 
 	public Long getId() {
 		return id;
@@ -55,22 +57,19 @@ public class Attendance {
 		this.attendance = attendance;
 	}
 
-	public boolean isDelay() {
-		return delay;
+	public boolean isLate() {
+		return late;
 	}
 
-	public void setDelay(boolean delay) {
-		this.delay = delay;
+	public void setLate(boolean late) {
+		this.late = late;
 	}
 
-	public Group getGroup() {
+	public GroupEvent getGroup() {
 		return group;
 	}
 
-	public void setGroup(Group group) {
+	public void setGroup(GroupEvent group) {
 		this.group = group;
 	}
-	
-	
-
 }

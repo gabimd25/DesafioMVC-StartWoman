@@ -42,7 +42,7 @@ public class EventController {
 			}
 		}
 		mv.addObject(event);
-		
+		//mv.addObject("eventGroups", event.getGroups());
 		return mv;
 		
 		
