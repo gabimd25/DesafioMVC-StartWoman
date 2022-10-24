@@ -48,7 +48,7 @@ public class ActivityController {
 		return mv;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path = "save")
+	@RequestMapping(method = RequestMethod.POST, path = "edit")
 	public ModelAndView saveActivity(@Valid Activity activity, BindingResult bindingResult) {
 
 		ModelAndView mv = new ModelAndView("activity/formActivity.html");
