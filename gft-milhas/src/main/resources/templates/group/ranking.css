@@ -1,0 +1,33 @@
+.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;	
+		}
+
+		.container2 {
+			display: flex;
+			flex-direction: row;
+			justify-content:space-evenly;
+		}
+		
+		.titulo {
+			padding: 30px;
+			text-align: center;
+		}
+		
+		.pesquisar {
+			margin-bottom: 30px;
+		}
+		
+		.tabela-classificacao {
+			margin-right:40px;
+		}
+		
+		.tabela-pontuacao {
+			margin-left: 40px;	
+		}
+
+		.entrar{
+			margin-top:40px
+		}
+		
