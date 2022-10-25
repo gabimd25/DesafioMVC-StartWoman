@@ -15,28 +15,24 @@
 		<form method="post" th:object="${activity}" th:action="@{/activity/edit}">
 		<input type="hidden" th:field="*{id}"></input>
 			<div class="form-group mb-3">
-				<label for="name">Nome</label> <input class="form-control"
-					type="text" th:field="*{name}" required></input>
-				<div class="text-danger" th:if="${#fields.hasErrors('name')}"
-					th:errors="*{name}"></div>
+				<label for="name">Nome</label> 
+				<input class="form-control" type="text" th:field="*{name}" required></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 			</div>
 			<div class="form-group mb-3">
-				<label for="startDate">Data inicial</label> <input
-					class="form-control" type="text" id="_startDate" th:field="*{startDate}"></input> <input
-					type="hidden" th:field="*{startDate}"></input>
-				<div class="text-danger" th:if="${#fields.hasErrors('startDate')}"
-					th:errors="*{startDate}"></div>
+				<label for="startDate">Data inicial</label>
+				<input class="form-control" type="text" id="_startDate"></input>
+				<input type="hidden" th:field="*{startDate}"></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
 			</div>
 			<div class="form-group mb-3">
-				<label for="endDate">Data final</label> <input class="form-control"
-					type="text" id="_endDate" th:field="*{endDate}"></input> <input type="hidden"
-					th:field="*{endDate}"></input>
-				<div class="text-danger" th:if="${#fields.hasErrors('endDate')}"
-					th:errors="*{endDate}"></div>
+				<label for="endDate">Data final</label>
+				<input class="form-control" type="text" id="_endDate"></input>
+				<input type="hidden" th:field="*{endDate}"></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
 			</div>
-
-
-			<button type="submit" class="btn btn-primary">Salvar</button>
+			
+			<button type="submit" class="btn btn-primary">Salvar Atividade</button>
 		</form>
 	</div>
 </div>
@@ -44,12 +40,12 @@
 	<script>
 		$(function () {
 			$("#_startDate").datepicker({
-				dateFormat: "yy-mm-dd",
+				dateFormat: "dd/mm/yy",
 				altFormat: "yy-mm-dd",
 				altField: "#startDate"
 			});
 			$("#_endDate").datepicker({
-				dateFormat: "yy-mm-dd",
+				dateFormat: "dd/mm/yy",
 				altFormat: "yy-mm-dd",
 				altField: "#endDate"
 			});
