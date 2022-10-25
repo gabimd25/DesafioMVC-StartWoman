@@ -31,7 +31,7 @@ public class Activity {
 	private Date startDate;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date endDate;
+	private Date deliveryDate;
 	
 	@ManyToMany
 	private List<Guest> guestsFinished = new ArrayList<Guest>();
@@ -64,12 +64,13 @@ public class Activity {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	
+	public Date getDeliveryDate() {
+		return deliveryDate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setDeliveryDate(Date deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 
 	public List<Guest> getGuestsFinished() {

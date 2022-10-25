@@ -38,5 +38,23 @@ public class GuestService {
 		}
 		return guest.get();
 	}
+	
+	
+
+	public List<Guest> listGuest(String name, String fourletters) {
+
+		if (name != null || fourletters != null)
+			return listarGuestsForNameAndFourLetters(name);
+
+		return listGuestWhole();
+	}
+
+	public List<Guest> listGuestWhole() {
+		return guestRepository.findAll();
+	}
+
+	public List<Guest> listarGuestsForNameAndFourLetters(String name) {
+		return guestRepository.findByNameContains(name);
+	}
 
 }
