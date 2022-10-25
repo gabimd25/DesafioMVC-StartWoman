@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grupo4.gft.entities.Activity;
+import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.servicies.ActivityService;
+import com.grupo4.gft.servicies.EventService;
 
 @Controller
 @RequestMapping("activity")
@@ -20,6 +22,9 @@ public class ActivityController {
 
 	@Autowired
 	private ActivityService activityService;
+	
+	@Autowired
+	private EventService eventService;
 	
 	@RequestMapping(path = "new")
 	public ModelAndView newActivity() {
@@ -29,14 +34,22 @@ public class ActivityController {
 		return mv;
 	}
 	
-	@RequestMapping(path = "edit")
-	public ModelAndView editActivity(@RequestParam Long id) {
+	@RequestMapping(path = "/edit")
+	public ModelAndView editActivity(@RequestParam (required=false) Long id, @RequestParam (required=false) Long idEvent) {
 
 		ModelAndView mv = new ModelAndView("activity/formActivity.html");
+		
 		Activity activity;
+		Event event;
 
 		if (id == null) {
 			activity = new Activity();
+			try {
+				event = eventService.getEvent(idEvent);
+				activity.setEvent(event);
+			}catch(Exception e){
+				mv.addObject("message", e.getMessage());
+			}
 		} else {
 			try {
 				activity = activityService.getActivity(id);
@@ -46,6 +59,7 @@ public class ActivityController {
 			}
 		}
 		mv.addObject(activity);
+		
 		return mv;
 	}
 

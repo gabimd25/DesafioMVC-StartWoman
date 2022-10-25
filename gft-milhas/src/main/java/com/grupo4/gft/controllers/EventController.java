@@ -72,7 +72,7 @@ public class EventController {
 			mv.addObject("event", event);
 		}
 		
-		mv.addObject("message", "Participante salvo com sucesso");
+		mv.addObject("message", "Evento salvo com sucesso");
 		mv.addObject("listEvent", eventService.listAllEvent());
 		
 		return mv;
