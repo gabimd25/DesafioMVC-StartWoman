@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grupo4.gft.entities.Activity;
 import com.grupo4.gft.servicies.ActivityService;
@@ -76,4 +77,34 @@ public class ActivityController {
 		mv.addObject("listActivity", activityService.listAllActivities());
 		return mv;
 	}
+	
+	@RequestMapping
+	public ModelAndView listActivity(String name) {
+		ModelAndView mv = new ModelAndView("activity/listActivity.html");
+		
+		mv.addObject("list", activityService.findActivity(name));
+		
+		return mv;
+	}
+	
+
+	@RequestMapping("/delete")
+	public ModelAndView deleteActivity(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+		
+		ModelAndView mv= new ModelAndView("redirect:/activity/list");
+		
+		
+		try {
+			
+		activityService.deleteActivity(id);
+		redirectAttributes.addFlashAttribute("messagem", "Atividade excluido com sucesso");
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir Atividade " +e.getMessage());
+		}
+		
+		
+		return mv;
+
+}
 }

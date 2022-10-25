@@ -79,10 +79,13 @@ public class GuestController {
 	}
 	
 	@RequestMapping("list")
-	public ModelAndView listAllGuest() {
+	public ModelAndView listAllGuest(String name, String fourletters) {
 		ModelAndView mv = new ModelAndView("guest/listGuest.html");
 		
-		mv.addObject("listGuest", guestService.listAllGuest());
+		mv.addObject("listGuest", guestService.listGuest(name, fourletters));
+		
+		mv.addObject("name", name);
+		mv.addObject("fourletters", fourletters);
 		
 		return mv;
 	}
