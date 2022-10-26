@@ -8,40 +8,8 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<style>
-	.container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;	
-		}
-
-		.container2 {
-			display: flex;
-			flex-direction: row;
-			justify-content:space-evenly;
-		}
-		
-		.titulo {
-			padding: 30px;
-			text-align: center;
-		}
-		
-		.pesquisar {
-			margin-bottom: 30px;
-		}
-		
-		.tabela-classificacao {
-			margin-right:40px;
-		}
-		
-		.tabela-pontuacao {
-			margin-left: 40px;	
-		}
-
-		.entrar{
-			margin-top:40px
-		}
-	</style>
+	<link href="ranking.css" th:href="@{ranking.css}" rel="stylesheet"/>
+	
 </head>
 
 <body>
@@ -51,10 +19,10 @@
 			<h2>PROGRAMA GFT MILHAS</h2>
 		</div>
 		<div class="pesquisar">
-			<form method="get" class="form-inline">
+			<form  class="form-inline" method="get">
 				<div class="form-group mx-sm-3 mb-2">
 					<label for="name" class="sr-only">Grupo</label>
-					<input type="text" class="form-control" id="name" placeholder="Group" name="name" th:value="${name}">
+					<input type="text" class="form-control" id="name" placeholder="grupo" name="name" th:value="${name}">
 				</div>
 				<button type="submit" class="btn btn-primary mb-2">Pesquisar</button>
 			</form>
