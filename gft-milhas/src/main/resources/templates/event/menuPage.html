@@ -35,7 +35,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="event : ${list}">
+				<tr th:each="event : ${listEvent}">
 					<td th:text="${event.id}"></td>
 					<td th:text="${event.name}"></td>
 					<td th:text="${#dates.format(event.startDate, 'dd/MM/yyyy')}"></td>

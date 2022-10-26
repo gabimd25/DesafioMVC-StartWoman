@@ -41,8 +41,6 @@ public class GroupController {
 		
 		GroupEvent group;
 		Event event;
-		List<Guest> guests;
-		guests = guestService.listAllGuest();
 		if(id == null) {
 			group = new GroupEvent();			
 			try {
@@ -60,7 +58,7 @@ public class GroupController {
 			}
 		}
 		mv.addObject(group);
-		mv.addObject("listGuest", guests);
+		mv.addObject("listGuest", guestService.listAllGuest());
 		return mv;
 	}
 	
@@ -90,6 +88,7 @@ public class GroupController {
 		
 		mv.addObject("message", "Grupo salvo com sucesso");
 		mv.addObject("listGroup", groupService.listAllGroupEvent());
+		mv.addObject("listGuest", guestService.listAllGuest());
 		
 		return mv;
 		
@@ -143,14 +142,14 @@ public class GroupController {
 		
 	}
 	@RequestMapping("/addGuest")
-	public ModelAndView addGuest(@RequestParam Long id,@RequestParam Long idGuest, RedirectAttributes redirectAttributes) {
+	public ModelAndView addGuest(@RequestParam Long id,@RequestParam List<Guest> guestList, RedirectAttributes redirectAttributes) {
 		
 		ModelAndView mv= new ModelAndView("redirect:/group/edit?id="+id);
 		
 		
 		try {
 			
-			groupService.addGuest(id, idGuest);
+			groupService.addGuest2(id, guestList);
 			redirectAttributes.addFlashAttribute("messagem", "Participante adicionado com sucesso");
 			
 		} catch (Exception e) {

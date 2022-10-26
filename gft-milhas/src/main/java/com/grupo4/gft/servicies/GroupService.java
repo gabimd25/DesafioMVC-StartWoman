@@ -71,4 +71,14 @@ public class GroupService {
 			e.printStackTrace();
 		}		
 	}
+	public void addGuest2(Long id, List<Guest> guestList) {
+		GroupEvent groupEvent;
+		try {
+			groupEvent = getGroupEvent(id);
+			groupEvent.addGuest(guestList);
+			groupRepository.save(groupEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
 }

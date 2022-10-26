@@ -59,6 +59,10 @@ public class GroupEvent {//Event
 		this.guests.add(guest);
 	}
 	
+	public void addGuest(List<Guest> guest) {
+		this.guests.addAll(guest);
+	}
+	
 	public void removeGuest(Guest guest) {
 		this.guests.remove(guest);
 	}
