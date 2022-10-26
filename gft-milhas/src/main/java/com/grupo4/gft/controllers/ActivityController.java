@@ -92,7 +92,7 @@ public class ActivityController {
 		return mv;
 	}
 	
-	@RequestMapping
+	@RequestMapping(path="list")
 	public ModelAndView listActivity(String name) {
 		ModelAndView mv = new ModelAndView("activity/listActivity.html");
 		
@@ -102,7 +102,7 @@ public class ActivityController {
 	}
 	
 
-	@RequestMapping("/delete")
+	@RequestMapping("delete")
 	public ModelAndView deleteActivity(@RequestParam Long id, RedirectAttributes redirectAttributes) {
 		
 		ModelAndView mv= new ModelAndView("redirect:/activity/list");

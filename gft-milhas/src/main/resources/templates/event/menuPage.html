@@ -35,14 +35,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="event : ${list}">
+				<tr th:each="event : ${listEvent}">
 					<td th:text="${event.id}"></td>
 					<td th:text="${event.name}"></td>
 					<td th:text="${#dates.format(event.startDate, 'dd/MM/yyyy')}"></td>
 					<td th:text="${#dates.format(event.endDate, 'dd/MM/yyyy')}"></td>
 					<td>
 						<a class="btn btn-primary btn-sm" th:href="@{/event/edit(id=${event.id})}">Editar</a>
-						<a class="btn btn-primary btn-sm" th:href="@{/event/excluir(id=${event.id})}" >Excluir</a>
+						<a class="btn btn-primary btn-sm" th:href="@{/event/delete(id=${event.id})}" >Excluir</a>
 					</td>
 				</tr>
 			</tbody>

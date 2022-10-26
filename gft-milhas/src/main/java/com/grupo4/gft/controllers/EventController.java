@@ -89,7 +89,7 @@ public class EventController {
 	}
 	
 
-	@RequestMapping("/delete")
+	@RequestMapping("delete")
 	public ModelAndView deleteEvent(@RequestParam Long id, RedirectAttributes redirectAttributes) {
 		
 		ModelAndView mv= new ModelAndView("redirect:/event/list");
