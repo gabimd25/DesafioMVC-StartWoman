@@ -78,6 +78,7 @@ public class GuestController {
 		
 	}
 	
+
 	@RequestMapping("list")
 	public ModelAndView listAllGuest(String name, String fourletters) {
 		ModelAndView mv = new ModelAndView("guest/listGuest.html");
@@ -105,7 +106,6 @@ public class GuestController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir participante " +e.getMessage());
 		}
-		
 		
 		return mv;
 		
