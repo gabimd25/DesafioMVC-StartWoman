@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
+import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.repositories.GroupRepository;
 
 @Service
@@ -15,6 +16,9 @@ public class GroupService {
 
 	@Autowired
 	private GroupRepository groupRepository;
+	
+	@Autowired
+	private GuestService guestService;
 
 	public void saveGroupEvent(GroupEvent group) {
 		groupRepository.save(group);
@@ -29,9 +33,8 @@ public class GroupService {
 		Optional<GroupEvent> group = groupRepository.findById(id);
 
 		if (group.isEmpty()) 
-			throw new Exception("Evento não encontrado");
+			throw new Exception("Grupo não encontrado");
 
-		
 		return group.get();
 	}
 
@@ -41,9 +44,41 @@ public class GroupService {
 	
 	public List<GroupEvent> findGroupEvent(String name) {
 
-		//if (name != null)
-			//return findEventByName(name);
-
 		return listAllGroupEvent();
+	}
+	
+	public void removeGuest(Long id, Long idGuest) {
+		GroupEvent groupEvent;
+		Guest guest;
+		try {
+			groupEvent = getGroupEvent(id);
+			guest = guestService.getGuest(idGuest);
+			groupEvent.removeGuest(guest);
+			groupRepository.save(groupEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	public void addGuest(Long id, Long idGuest) {
+		GroupEvent groupEvent;
+		Guest guest;
+		try {
+			groupEvent = getGroupEvent(id);
+			guest = guestService.getGuest(idGuest);
+			groupEvent.addGuest(guest);
+			groupRepository.save(groupEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	public void addGuest2(Long id, List<Guest> guestList) {
+		GroupEvent groupEvent;
+		try {
+			groupEvent = getGroupEvent(id);
+			groupEvent.addGuest(guestList);
+			groupRepository.save(groupEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 }

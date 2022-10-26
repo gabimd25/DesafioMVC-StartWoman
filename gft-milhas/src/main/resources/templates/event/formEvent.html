@@ -64,6 +64,14 @@
 								th:href="@{/group/edit(id=${group.id},idEvent=${event.id})}">Editar</a></td>
 						<td><a class="btn btn-primary btn-sm"
 								th:href="@{/group/delete(id=${group.id},idEvent=${event.id})}">Excluir</a></td>
+						<table class="table table-striped">
+							<tbody>
+								<tr th:each="guest : ${group.guests}">
+									<td th:text="${guest.name}"></td>
+									<td th:text="${guest.fourLetters}"></td>
+								</tr>
+							</tbody>
+						</table>
 					</tr>
 				</tbody>
 			</table>-->
