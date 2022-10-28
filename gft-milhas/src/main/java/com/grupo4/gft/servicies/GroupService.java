@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.repositories.GroupRepository;

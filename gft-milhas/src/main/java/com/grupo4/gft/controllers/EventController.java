@@ -42,7 +42,8 @@ public class EventController {
 			}
 		}
 		mv.addObject(event);
-		//mv.addObject("eventGroups", event.getGroups());
+		mv.addObject("eventGroups", event.getGroups());
+		mv.addObject("eventActivities", event.getActivities());
 		return mv;
 		
 		

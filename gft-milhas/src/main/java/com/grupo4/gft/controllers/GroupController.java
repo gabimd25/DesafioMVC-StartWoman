@@ -41,11 +41,13 @@ public class GroupController {
 		
 		GroupEvent group;
 		Event event;
+		
 		if(id == null) {
 			group = new GroupEvent();			
 			try {
 				event = eventService.getEvent(idEvent);
 				group.setEvent(event);
+				
 			}catch(Exception e){
 				mv.addObject("message", e.getMessage());
 			}			

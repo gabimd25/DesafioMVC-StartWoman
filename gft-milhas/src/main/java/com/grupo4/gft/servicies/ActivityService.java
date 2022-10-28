@@ -7,12 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo4.gft.entities.Activity;
+import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.repositories.ActivityRepository;
+import com.grupo4.gft.repositories.GroupRepository;
 
 @Service
 public class ActivityService {
+	
 	@Autowired
 	private ActivityRepository activityRepository;
+	
+	@Autowired
+	private GroupRepository groupRepository;
 
 	public void saveActivity(Activity activity) {
 		activityRepository.save(activity);
@@ -49,4 +55,6 @@ public class ActivityService {
 
 		return listAllActivities();
 	}
+
+	
 }

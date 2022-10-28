@@ -42,7 +42,7 @@
 					<td th:text="${#dates.format(activity.deliveryDate, 'dd/MM/yyyy')}"></td>
 					<td>
 						<a class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=${activity.id})}">Editar</a>
-						<a class="btn btn-primary btn-sm" th:href="@{/activity/excluir(id=${activity.id})}" >Excluir</a>
+						<a class="btn btn-primary btn-sm" th:href="@{/activity/delete(id=${activity.id})}" >Excluir</a>
 					</td>
 				</tr>
 			</tbody>
