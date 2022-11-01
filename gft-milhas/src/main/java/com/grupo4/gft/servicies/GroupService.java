@@ -10,13 +10,13 @@ import com.grupo4.gft.entities.Activity;
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.entities.Guest;
-import com.grupo4.gft.repositories.GroupRepository;
+import com.grupo4.gft.repositories.GroupEventRepository;
 
 @Service
 public class GroupService {
 
 	@Autowired
-	private GroupRepository groupRepository;
+	private GroupEventRepository groupEventRepository;
 	
 	@Autowired
 	private GuestService guestService;
@@ -25,29 +25,29 @@ public class GroupService {
 	@Autowired
 	private EventService eventService;
 
-	public void saveGroupEvent(GroupEvent group) throws Exception {
+	public void saveGroupEvent(GroupEvent groupEvent) throws Exception {
 
-		checkGuestUniqueInEvent(group);
-		groupRepository.save(group);
+		checkGuestUniqueInEvent(groupEvent);
+		groupEventRepository.save(groupEvent);
 
 	}
 
 	public void deleteGroupEvent(Long id) {
-		groupRepository.deleteById(id);
+		groupEventRepository.deleteById(id);
 	}
 
 	public GroupEvent getGroupEvent(Long id) throws Exception {
 
-		Optional<GroupEvent> group = groupRepository.findById(id);
+		Optional<GroupEvent> groupEvent = groupEventRepository.findById(id);
 
-		if (group.isEmpty())
+		if (groupEvent.isEmpty())
 			throw new Exception("Grupo não encontrado");
 
-		return group.get();
+		return groupEvent.get();
 	}
 
 	public List<GroupEvent> listAllGroupEvent() {
-		return groupRepository.findAll();
+		return groupEventRepository.findAll();
 	}
 
 	public List<GroupEvent> findGroupEvent(String name) {
@@ -62,7 +62,7 @@ public class GroupService {
 			groupEvent = getGroupEvent(id);
 			guest = guestService.getGuest(idGuest);
 			groupEvent.removeGuest(guest);
-			groupRepository.save(groupEvent);
+			groupEventRepository.save(groupEvent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,7 +94,7 @@ public class GroupService {
 			guest = guestService.getGuest(idGuest);
 
 			groupEvent.addGuest(guest);
-			groupRepository.save(groupEvent);
+			groupEventRepository.save(groupEvent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -106,17 +106,17 @@ public class GroupService {
 
 			groupEvent = getGroupEvent(id);
 			groupEvent.addGuest(guestList);
-			groupRepository.save(groupEvent);
+			groupEventRepository.save(groupEvent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void addFinishedActivithScoreInGrupo(GroupEvent group) throws Exception {
+	public void addFinishedActivithScoreInGrupo(GroupEvent groupEvent) throws Exception {
 
-		List<Guest> listGuestsGroup = group.getGuests();
+		List<Guest> listGuestsGroup = groupEvent.getGuests();
 
-		Long idEventGroup = group.getEvent().getId();
+		Long idEventGroup = groupEvent.getEvent().getId();
 
 		// encontrar o evento atraves de id
 		Event eventOfGroup = eventService.getEvent(idEventGroup);
@@ -130,12 +130,14 @@ public class GroupService {
 			for (Guest guest : activity.getGuestsFinished()) {
 				for (Guest guestGroup : listGuestsGroup) {
 					if (guest.getId() == guestGroup.getId()) {
-						group.setPontuacao(group.getPontuacao() + 5);
+						groupEvent.setScoreActivity((long) groupEvent.getScoreActivity() + 5);
 					}
 				}
 			}
 
 		}
+		
 	}
+	
 
 }

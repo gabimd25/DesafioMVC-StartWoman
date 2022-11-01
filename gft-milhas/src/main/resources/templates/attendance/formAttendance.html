@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout "
+	layout:decorate="~{layout.html}">
+
+<div layout:fragment="content">
+	<div class="alert alert-primary" th:if="${message != null}" th:text="${message}">
+		Nenhum evento cadastrado
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<p class="text-primary">Novo evento</p>
+		</div>
+	</div>
+	<div class="card-body">
+		<form method="post" th:object="${attendance}" th:action="@{/attendance/edit}">
+			<div class="form-group mb-3">
+				<input type="hidden" th:field="*{event}"></input>
+			</div>
+			<div class="form-group mb-3">
+				<label for="dateAttendance">Data inicial</label>
+				<input class="form-control" type="text" id="_dateAttendance"></input>
+				<input type="hidden" th:field="*{dateAttendance}"></input>
+				<div class="text-danger" th:if="${#fields.hasErrors('dateAttendance')}" th:errors="*{dateAttendance}">
+				</div>
+			</div>
+
+			<div>
+				<tr>
+					<th> Registros de Presenças </th>
+				</tr>
+			</div>
+
+			<table class="table">
+<!--				<tbody>-->
+
+					<tr th:each="group, ind1 : ${groups}">
+
+						<td th:text="${group.name}" style="background-color: #D6EEEE"></td>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Quatro Letras</th>
+									<th>Presente</th>
+									<th>Atrasado</th>
+									<th>Ausente</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!--<tr th:each="guest : ${group.guests}">-->
+								<tr th:each="guest, ind2: ${group.guests}">
+									<div class="form-group mb-3">
+										<td th:text="${group.guests[__${ind2.index}__].name}"></td>
+										<td th:text="${group.guests[__${ind2.index}__].fourLetters}"></td>
+										<td>
+											<input type="radio" th:id="${ind1.index}+'present'+${ind2.index}"
+												th:name="'radioOption'+${guest.fourLetters}"
+												th:data-value="${guest.fourLetters}"
+												th:checked="${#strings.contains(listPresent,guest.fourLetters)}">
+										</td>
+										<td>
+											<input type="radio" th:id="${ind1.index}+'late'+${ind2.index}"
+												th:name="'radioOption'+${guest.fourLetters}"
+												th:data-value="${guest.fourLetters}"
+												th:checked="${#strings.contains(listLate,guest.fourLetters)}">
+										</td>
+										<td>
+											<input type="radio" th:id="${ind1.index}+'notpresent'+${ind2.index}"
+												th:name="'radioOption'+${guest.fourLetters}"
+												th:data-value="${guest.fourLetters}"
+												th:checked="${not #strings.contains(listPresent,guest.fourLetters) and not #strings.contains(listLate,guest.fourLetters)}">
+										</td>
+
+										<input type="hidden" th:id="${ind1.index}+'hid'+${ind2.index}"
+											th:value="${guest.fourLetters}"></input>
+
+									</div>
+								</tr>
+
+							</tbody>
+						</table>
+					</tr>
+<!--				</tbody>-->
+			</table>
+			<button type="submit" class="btn btn-primary" th:onclick="update()">Salvar Presença</button>
+		</form>
+	</div>
+</div>
+<div layout:fragment="scripts">
+	<script>
+		$(function () {
+			$("#_dateAttendance").datepicker({
+				dateFormat: "dd/mm/yy",
+				altFormat: "yy-mm-dd",
+				altField: "#dateAttendance"
+			});
+		});
+		function update(groups) {
+			var cont1 = 0, cont2 = 0;
+			var checkGuest = document.getElementById(cont1 + 'hid' + cont2);
+			while (checkGuest != null) {
+				while (checkGuest != null) {
+					console.log("id= " + checkGuest.id);
+					if (document.getElementById(cont1 + 'present' + cont2).checked) {
+						console.log("Present= " + checkGuest.id);
+						checkGuest.name = 'guestPresent';
+					}
+					else if (document.getElementById(cont1 + 'late' + cont2).checked) {
+						console.log("Late= " + checkGuest.id);
+						checkGuest.name = 'guestLate';
+					}
+					cont2++;
+					console.log("id= " + checkGuest.name);
+					checkGuest = document.getElementById(cont1 + 'hid' + cont2);
+				}
+				cont1++;
+				cont2 = 0;
+				checkGuest = document.getElementById(cont1 + 'hid' + cont2);
+			}
+		}
+	</script>
+
+</div>
+
+</html>

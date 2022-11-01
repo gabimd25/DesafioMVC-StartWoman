@@ -3,29 +3,35 @@ package com.grupo4.gft.servicies;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.grupo4.gft.entities.Activity;
+import com.grupo4.gft.entities.Attendance;
 import com.grupo4.gft.entities.Event;
+import com.grupo4.gft.entities.GroupEvent;
+import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.repositories.EventRepository;
-import com.grupo4.gft.repositories.GroupRepository;
+import com.grupo4.gft.repositories.GroupEventRepository;
 
 @Service
 public class EventService {
 
 	@Autowired
 	private EventRepository eventRepository;
-	
+
 	@Autowired
-	private GroupRepository groupRepository;
+	private GroupEventRepository groupEventRepository;
 
 	public void saveEvent(Event event) throws Exception {
-		boolean endStart= event.getEndDate().before(event.getStartDate());
-		if(endStart) 
+		boolean endStart = event.getEndDate().before(event.getStartDate());
+		if (endStart)
 			throw new Exception("Evento não pode ser salvo");
-			
-		eventRepository.save(event);	
-				
+
+		eventRepository.save(event);
+
 	}
 
 	public void deleteEvent(Long id) {
@@ -36,7 +42,7 @@ public class EventService {
 
 		Optional<Event> event = eventRepository.findById(id);
 
-		if (event.isEmpty()) 
+		if (event.isEmpty())
 			throw new Exception("Evento não encontrado");
 
 		return event.get();
@@ -59,5 +65,70 @@ public class EventService {
 		return listAllEvent();
 	}
 
+	public void updateScore(Event event) {
+		for (GroupEvent groupEvent : event.getGroups()) {
+			groupEvent.setScorePresent((long) 0);
+		}
+		for (Attendance attendance : event.getAttendances()) {
+			score(attendance);
+		}
+	}
+
+	public void score(@Valid Attendance attendance) {
+		String listPresent = "";
+		String listLate = "";
+
+		if (attendance.getGuestPresent() != null) {
+			listPresent = attendance.getGuestPresent();
+		}
+		if (attendance.getGuestLate() != null) {
+			listLate = attendance.getGuestLate();
+		}
+
+		for (GroupEvent groupEvent : attendance.getEvent().getGroups()) {
+			int score = 0, cont = 0;
+			for (Guest guest : groupEvent.getGuests()) {
+				String fourL = guest.getFourLetters();
+				if (listPresent.contains(fourL)) {
+					score += 10;
+					cont++;
+				} else if (listLate.contains(fourL)) {
+					score += 8;
+					cont++;
+				}
+			}
+			if (cont == groupEvent.getGuests().size())
+				score += 5;
+			groupEvent.updateScorePresent((long) score);
+			groupEvent.setScoreTotal(groupEvent.getScoreActivity()+groupEvent.getScorePresent());
+			groupEventRepository.save(groupEvent);
+		}
+
+	}
+
+	public void addFinishedActivithScoreInGrupo2(Event event) throws Exception {
+
+		// evento encontra as atividades
+		List<Activity> listActivityEvent = event.getActivities();
+
+		//Boolean allGuestFinishedActivity = true;
+		for(Activity activity : listActivityEvent) {
+			for(GroupEvent groupEvent : event.getGroups()) {
+				int scoreActivity=0, cont=0;
+				groupEvent.setScoreActivity((long) 0);
+				for(Guest guest : groupEvent.getGuests()) {					
+					if(activity.getGuestsFinished().contains(guest)) {
+						scoreActivity+=5;
+						cont++;
+					}
+				}
+				if(cont == groupEvent.getGuests().size())
+					scoreActivity+=3;
+				groupEvent.updateScoreActivity((long) scoreActivity);
+				groupEvent.setScoreTotal(groupEvent.getScoreActivity()+groupEvent.getScorePresent());
+				groupEventRepository.save(groupEvent);
+			}
+		}
+	}
 
 }

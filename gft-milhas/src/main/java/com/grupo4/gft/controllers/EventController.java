@@ -39,15 +39,13 @@ public class EventController {
 				event=new Event();
 				mv.addObject("message", e.getMessage());
 			}
-		}
-		
+		}		
 		mv.addObject(event);
 
 		mv.addObject("eventGroups", event.getGroups());
 		mv.addObject("eventActivities", event.getActivities());
 		return mv;
 
-		
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path="edit")

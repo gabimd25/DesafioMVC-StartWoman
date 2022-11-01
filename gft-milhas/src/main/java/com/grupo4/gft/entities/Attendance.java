@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Attendance {//Attendance
 
@@ -16,14 +18,15 @@ public class Attendance {//Attendance
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Date date;
-	private String fourLetters;
-	private boolean attendance;
-	private boolean late;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date dateAttendance;
+	
+	private String guestPresent;
+	private String guestLate;
 	
 	@ManyToOne
-	@JoinColumn(name="GROUP_ID")
-	private GroupEvent group;
+	@JoinColumn(name="EVENT_ID")
+	private Event event;
 
 	public Long getId() {
 		return id;
@@ -33,43 +36,36 @@ public class Attendance {//Attendance
 		this.id = id;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getDateAttendance() {
+		return dateAttendance;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDateAttendance(Date dateAttendance) {
+		this.dateAttendance = dateAttendance;
 	}
 
-	public String getFourLetters() {
-		return fourLetters;
+	public String getGuestPresent() {
+		return guestPresent;
 	}
 
-	public void setFourLetters(String fourLetters) {
-		this.fourLetters = fourLetters;
+	public void setGuestPresent(String guestPresent) {
+		this.guestPresent = guestPresent;
 	}
 
-	public boolean isAttendance() {
-		return attendance;
+	public String getGuestLate() {
+		return guestLate;
 	}
 
-	public void setAttendance(boolean attendance) {
-		this.attendance = attendance;
+	public void setGuestLate(String guestLate) {
+		this.guestLate = guestLate;
 	}
 
-	public boolean isLate() {
-		return late;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setLate(boolean late) {
-		this.late = late;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
-	public GroupEvent getGroup() {
-		return group;
-	}
-
-	public void setGroup(GroupEvent group) {
-		this.group = group;
-	}
 }
