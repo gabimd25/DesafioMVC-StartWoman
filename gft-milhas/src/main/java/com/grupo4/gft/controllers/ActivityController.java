@@ -1,5 +1,8 @@
 package com.grupo4.gft.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grupo4.gft.entities.Activity;
 import com.grupo4.gft.entities.Event;
+import com.grupo4.gft.entities.GroupEvent;
+import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.servicies.ActivityService;
 import com.grupo4.gft.servicies.EventService;
 
@@ -22,10 +27,11 @@ public class ActivityController {
 
 	@Autowired
 	private ActivityService activityService;
-	
+
 	@Autowired
 	private EventService eventService;
-	
+
+
 	@RequestMapping(path = "new")
 	public ModelAndView newActivity() {
 
@@ -33,21 +39,34 @@ public class ActivityController {
 		mv.addObject(new Activity());
 		return mv;
 	}
-	
+
 	@RequestMapping(path = "/edit")
-	public ModelAndView editActivity(@RequestParam (required=false) Long id, @RequestParam (required=false) Long idEvent) {
+	public ModelAndView editActivity(@RequestParam(required = false) Long id,
+			@RequestParam(required = false) Long idEvent) {
 
 		ModelAndView mv = new ModelAndView("activity/formActivity.html");
-		
+
 		Activity activity;
 		Event event;
+		List<Guest> listGuestsEvent = new ArrayList<>();
+		
+		try {
+			List<GroupEvent> listGroupEvent = eventService.getEvent(idEvent).getGroups();
+
+			listGroupEvent.forEach((group) -> {
+				listGuestsEvent.addAll(group.getGuests());
+			});
+		}catch (Exception e) {
+			mv.addObject("message", e.getMessage());
+		}
 
 		if (id == null) {
 			activity = new Activity();
 			try {
 				event = eventService.getEvent(idEvent);
 				activity.setEvent(event);
-			}catch(Exception e){
+				
+			} catch (Exception e) {
 				mv.addObject("message", e.getMessage());
 			}
 		} else {
@@ -59,7 +78,8 @@ public class ActivityController {
 			}
 		}
 		mv.addObject(activity);
-		
+		mv.addObject("listGuestsEvent", listGuestsEvent);
+
 		return mv;
 	}
 
@@ -78,8 +98,13 @@ public class ActivityController {
 			mv.addObject("activity", activity);
 			return mv;
 		}
-
-		activityService.saveActivity(activity);
+		
+		try {
+			activityService.saveActivity(activity);
+			mv.addObject("message", "Atividade salva com sucesso");
+		}catch(Exception e){
+			mv.addObject("message", e.getMessage());
+		}
 
 		if (novo) {
 			mv.addObject("activity", new Activity());
@@ -87,38 +112,37 @@ public class ActivityController {
 			mv.addObject("activity", activity);
 		}
 
-		mv.addObject("message", "Atividade salva com sucesso");
+		
+		// mv.addObject("listGuest", activityService.listAllGuestEvent());
 		mv.addObject("listActivity", activityService.listAllActivities());
+
 		return mv;
 	}
-	
-	@RequestMapping(path="list")
+
+	@RequestMapping(path = "list")
 	public ModelAndView listActivity(String name) {
 		ModelAndView mv = new ModelAndView("activity/listActivity.html");
-		
+
 		mv.addObject("list", activityService.findActivity(name));
-		
+
 		return mv;
 	}
-	
 
 	@RequestMapping("delete")
 	public ModelAndView deleteActivity(@RequestParam Long id, RedirectAttributes redirectAttributes) {
-		
-		ModelAndView mv= new ModelAndView("redirect:/activity/list");
-		
-		
+
+		ModelAndView mv = new ModelAndView("redirect:/activity/list");
+
 		try {
-			
-		activityService.deleteActivity(id);
-		redirectAttributes.addFlashAttribute("messagem", "Atividade excluido com sucesso");
-			
+
+			activityService.deleteActivity(id);
+			redirectAttributes.addFlashAttribute("message", "Atividade excluido com sucesso");
+
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir Atividade " +e.getMessage());
+			redirectAttributes.addFlashAttribute("message", "Erro ao exluir Atividade " + e.getMessage());
 		}
-		
-		
+
 		return mv;
 
-}
+	}
 }

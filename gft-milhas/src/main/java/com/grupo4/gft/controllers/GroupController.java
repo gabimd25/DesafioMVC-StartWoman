@@ -1,5 +1,7 @@
 package com.grupo4.gft.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
+import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.servicies.EventService;
 import com.grupo4.gft.servicies.GroupService;
+import com.grupo4.gft.servicies.GuestService;
 
 
 @Controller
@@ -26,6 +30,9 @@ public class GroupController {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private GuestService guestService;
 	
 	@RequestMapping(path="edit")
 	public ModelAndView groupEvent(@RequestParam (required=false) Long id, @RequestParam (required=false) Long idEvent ) {
@@ -41,6 +48,7 @@ public class GroupController {
 			try {
 				event = eventService.getEvent(idEvent);
 				group.setEvent(event);
+				
 			}catch(Exception e){
 				mv.addObject("message", e.getMessage());
 			}			
@@ -52,7 +60,10 @@ public class GroupController {
 				mv.addObject("message", e.getMessage());
 			}
 		}
+		
 		mv.addObject(group);
+		mv.addObject("listGuest", guestService.listAllGuest());
+		
 		
 		return mv;
 	}
@@ -72,8 +83,13 @@ public class GroupController {
 			mv.addObject("group", group);
 			return mv;
 		}
+		try {
+			groupService.saveGroupEvent(group);
+			mv.addObject("message", "Grupo salvo com sucesso");
+		}catch(Exception e) {
+			mv.addObject("message", e.getMessage());
+		}
 		
-		groupService.saveGroupEvent(group);
 		
 		if(newGroup) {
 			mv.addObject("group", new GroupEvent());
@@ -81,8 +97,9 @@ public class GroupController {
 			mv.addObject("group", group);
 		}
 		
-		mv.addObject("message", "Grupo salvo com sucesso");
+		
 		mv.addObject("listGroup", groupService.listAllGroupEvent());
+		mv.addObject("listGuest", guestService.listAllGuest());
 		
 		return mv;
 		
@@ -110,6 +127,44 @@ public class GroupController {
 			
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir grupo " +e.getMessage());
+		}
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping("/removeGuest")
+	public ModelAndView removeGuest(@RequestParam Long id,@RequestParam Long idGuest, RedirectAttributes redirectAttributes) {
+		
+		ModelAndView mv= new ModelAndView("redirect:/group/edit?id="+id);
+		
+		
+		try {
+			
+		groupService.removeGuest(id, idGuest);
+		redirectAttributes.addFlashAttribute("messagem", "Participante removido com sucesso");
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("messagem", "Erro ao remover participante " +e.getMessage());
+		}
+		
+		
+		return mv;
+		
+	}
+	@RequestMapping("/addGuest")
+	public ModelAndView addGuest(@RequestParam Long id,@RequestParam List<Guest> guestList, RedirectAttributes redirectAttributes) {
+		
+		ModelAndView mv= new ModelAndView("redirect:/group/edit?id="+id);
+		
+		
+		try {
+			
+			groupService.addGuest2(id, guestList);
+			redirectAttributes.addFlashAttribute("messagem", "Participante adicionado com sucesso");
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("messagem", "Erro ao adicionar participante " +e.getMessage());
 		}
 		
 		

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -64,7 +64,6 @@ public class Activity {
 		this.startDate = startDate;
 	}
 
-	
 	public Date getDeliveryDate() {
 		return deliveryDate;
 	}
@@ -88,5 +87,12 @@ public class Activity {
 	public void setEvent(Event event) {
 		this.event = event;
 	}
+
+	@Override
+	public String toString() {
+		return "Activity [id=" + id + ", name=" + name + ", startDate=" + startDate + ", deliveryDate=" + deliveryDate
+				+ ", guestsFinished=" + guestsFinished + ", event=" + event + "]";
+	}
+
+
 }
-	

@@ -26,10 +26,12 @@ public class GroupEvent {//Event
 	
 	@ManyToOne
 	@JoinColumn(name="EVENT_ID")
-	private Event event;
+	private Event event; 
 	
 	@OneToMany(mappedBy="group")
 	private List<Attendance> presence = new ArrayList<>();
+	
+	private int pontuacao;
 	
 	public Long getId() {
 		return id;
@@ -58,6 +60,14 @@ public class GroupEvent {//Event
 	public void addGuest(Guest guest) {
 		this.guests.add(guest);
 	}
+	
+	public void addGuest(List<Guest> guest) {
+		this.guests.addAll(guest);
+	}
+	
+	public void removeGuest(Guest guest) {
+		this.guests.remove(guest);
+	}
 
 	public List<Guest> getGuests() {
 		return guests;
@@ -74,6 +84,16 @@ public class GroupEvent {//Event
 	public void setPresence(List<Attendance> presence) {
 		this.presence = presence;
 	}
+
+	public int getPontuacao() {
+		return pontuacao;
+	}
+
+	public void setPontuacao(int pontuacao) {
+		this.pontuacao = pontuacao;
+	}
+	
+	
 	
 	
 }
