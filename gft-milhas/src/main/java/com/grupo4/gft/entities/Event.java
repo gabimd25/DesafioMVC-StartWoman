@@ -36,6 +36,9 @@ public class Event {
 	private List<GroupEvent> groups = new ArrayList<>();
 	
 	@OneToMany(mappedBy="event")
+	private List<Attendance> attendances = new ArrayList<>();
+	
+	@OneToMany(mappedBy="event")
 	private List<Activity> activities = new ArrayList<>();
 
 	public Long getId() {
@@ -77,6 +80,14 @@ public class Event {
 	public void setGroups(List<GroupEvent> groups) {
 		this.groups = groups;
 	}
+	
+	public List<Attendance> getAttendances() {
+		return attendances;
+	}
+
+	public void setAttendances(List<Attendance> attendances) {
+		this.attendances = attendances;
+	}
 
 	public List<Activity> getActivities() {
 		return activities;
@@ -86,8 +97,8 @@ public class Event {
 		this.activities = activities;
 	}
 	
-	public void addGroup(GroupEvent group) {
-		this.groups.add(group);
+	public void addGroup(GroupEvent groupEvent) {
+		this.groups.add(groupEvent);
 	}
 
 	

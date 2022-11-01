@@ -24,14 +24,15 @@ public class GroupEvent {//Event
 	@ManyToMany
 	private List<Guest> guests = new ArrayList<>();
 	
+	private Long scorePresent;
+	private Long scoreActivity;
+	private Long scoreTotal;
+
 	@ManyToOne
 	@JoinColumn(name="EVENT_ID")
 	private Event event; 
 	
-	@OneToMany(mappedBy="group")
-	private List<Attendance> presence = new ArrayList<>();
 	
-	private int pontuacao;
 	
 	public Long getId() {
 		return id;
@@ -77,22 +78,37 @@ public class GroupEvent {//Event
 		this.guests = guests;
 	}
 
-	public List<Attendance> getPresence() {
-		return presence;
-	}
-
-	public void setPresence(List<Attendance> presence) {
-		this.presence = presence;
-	}
-
-	public int getPontuacao() {
-		return pontuacao;
-	}
-
-	public void setPontuacao(int pontuacao) {
-		this.pontuacao = pontuacao;
+	public void updateScorePresent(Long scorePresent) {
+		this.scorePresent += scorePresent;
 	}
 	
+	public Long getScorePresent() {
+		return scorePresent;
+	}
+
+	public void setScorePresent(Long scorePresent) {
+		this.scorePresent = scorePresent;
+	}
+
+	public void updateScoreActivity(Long scoreActivity) {
+		this.scoreActivity += scoreActivity;
+	}
+	
+	public Long getScoreActivity() {
+		return scoreActivity;
+	}
+
+	public void setScoreActivity(Long scoreActivity) {
+		this.scoreActivity = scoreActivity;
+	}	
+
+	public Long getScoreTotal() {
+		return scoreTotal;
+	}
+
+	public void setScoreTotal(Long scoreTotal) {
+		this.scoreTotal = scoreTotal;
+	}
 	
 	
 	

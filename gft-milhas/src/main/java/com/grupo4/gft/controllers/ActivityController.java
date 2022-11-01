@@ -53,8 +53,8 @@ public class ActivityController {
 		try {
 			List<GroupEvent> listGroupEvent = eventService.getEvent(idEvent).getGroups();
 
-			listGroupEvent.forEach((group) -> {
-				listGuestsEvent.addAll(group.getGuests());
+			listGroupEvent.forEach((groupEvent) -> {
+				listGuestsEvent.addAll(groupEvent.getGuests());
 			});
 		}catch (Exception e) {
 			mv.addObject("message", e.getMessage());
@@ -101,6 +101,7 @@ public class ActivityController {
 		
 		try {
 			activityService.saveActivity(activity);
+			eventService.addFinishedActivithScoreInGrupo2(activity.getEvent());
 			mv.addObject("message", "Atividade salva com sucesso");
 		}catch(Exception e){
 			mv.addObject("message", e.getMessage());
@@ -112,7 +113,6 @@ public class ActivityController {
 			mv.addObject("activity", activity);
 		}
 		
-		// mv.addObject("listGuest", activityService.listAllGuestEvent());
 		mv.addObject("listActivity", activityService.listAllActivities());
 
 		return mv;
