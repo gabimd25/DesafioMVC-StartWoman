@@ -19,6 +19,9 @@ public class GroupService {
 
 	@Autowired
 	private GroupRepository groupRepository;
+	
+	@Autowired
+	private GuestService guestService;
 
 	@Autowired
 	private GuestService guestService;

@@ -41,8 +41,6 @@ public class GroupController {
 		
 		GroupEvent group;
 		Event event;
-		
-		
 		if(id == null) {
 			group = new GroupEvent();			
 			try {
@@ -133,6 +131,44 @@ public class GroupController {
 		return mv;
 	}
 	
+	@RequestMapping("/removeGuest")
+	public ModelAndView removeGuest(@RequestParam Long id,@RequestParam Long idGuest, RedirectAttributes redirectAttributes) {
+		
+		ModelAndView mv= new ModelAndView("redirect:/group/edit?id="+id);
+		
+		
+		try {
+			
+		groupService.removeGuest(id, idGuest);
+		redirectAttributes.addFlashAttribute("messagem", "Participante removido com sucesso");
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("messagem", "Erro ao remover participante " +e.getMessage());
+		}
+		
+		
+		return mv;
+		
+	}
+	@RequestMapping("/addGuest")
+	public ModelAndView addGuest(@RequestParam Long id,@RequestParam List<Guest> guestList, RedirectAttributes redirectAttributes) {
+		
+		ModelAndView mv= new ModelAndView("redirect:/group/edit?id="+id);
+		
+		
+		try {
+			
+			groupService.addGuest2(id, guestList);
+			redirectAttributes.addFlashAttribute("messagem", "Participante adicionado com sucesso");
+			
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("messagem", "Erro ao adicionar participante " +e.getMessage());
+		}
+		
+		
+		return mv;
+		
+	}
 	@RequestMapping("/removeGuest")
 	public ModelAndView removeGuest(@RequestParam Long id,@RequestParam Long idGuest, RedirectAttributes redirectAttributes) {
 		
