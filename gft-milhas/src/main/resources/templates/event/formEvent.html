@@ -8,13 +8,13 @@
 	</div>
 	<div class="card">
 		<div class="card-header">
-			<p class="text-primary">Novo evento</p>
+			<p class="text-primary">Evento</p>
 		</div>
 	</div>
 	<div class="card-body">
 		<form method="post" th:object="${event}" th:action="@{/event/edit}">
-			<input type="hidden" th:field="*{id}"></input>
 			<div class="form-group mb-3">
+				<input type="hidden" th:field="*{id}">
 				<label for="name">Nome</label>
 				<input class="form-control" type="text" th:field="*{name}" required></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
@@ -31,83 +31,80 @@
 				<input type="hidden" th:field="*{endDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
 			</div>
-			<button type="submit" class="btn btn-primary" th:href="@{/event/edit(id=${event.id})}">Cadastrar</button>
-	</div>
-	
-	<!--<div <span th:if="${event} == null" th:text="${"menssagem"}"></span>>-->
-	<div>
-	   		
-		<tr>
-			<th > Grupos do Evento </th>
-			<td>
-				<button class="btn btn-primary btn-sm" th:href="@{/group/edit(id=null, idEvent=${event.id})}" [disabled]="${event.id} == null" >Criar Grupo</button>
-			
-			<!--<td th:remove= "${event.id} == null ? all">
-			<a class="btn btn-primary btn-sm" th:href="@{/group/edit(id=null, idEvent=${event.id})}">Criar Grupo</a>-->
-			</td>
-		</tr>
-	</div>
-	<br>
-	<!--<table class="table table-striped" th:if="${not #lists.isEmpty(listGroup)}">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Nome</th>
-						<th>Opções</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="group : ${event.groups}">
-						<td th:text="${group.id}"></td>
-						<td th:text="${group.name}"></td>
-						<td><a class="btn btn-primary btn-sm"
-								th:href="@{/group/edit(id=${group.id},idEvent=${event.id})}">Editar</a></td>
-						<td><a class="btn btn-primary btn-sm"
-								th:href="@{/group/delete(id=${group.id},idEvent=${event.id})}">Excluir</a></td>
-						<table class="table table-striped">
-							<tbody>
-								<tr th:each="guest : ${group.guests}">
-									<td th:text="${guest.name}"></td>
-									<td th:text="${guest.fourLetters}"></td>
-								</tr>
-							</tbody>
-						</table>
-					</tr>
-				</tbody>
-			</table>-->
-	<!--<div <span th:if="${event.id} == null" th:text="Teste"></span>>-->
-	<div>
-		<tr>
-			<th> Atividades do Evento </th>
-			<td>
-				<a class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=null, idEvent=${event.id})}" [disabled]="${event.id} == null" >Criar Atividade</a>
-			<!--<td th:remove= "${event.id} == null ? all"><a id= "criarAtividade" class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=null, idEvent=${event.id})}">Criar
-					Atividade</a></td>-->
-		</tr>
-	</div>
-	<!--<table class="table table-striped" th:if="${not #lists.isEmpty(listActivity)}">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Nome</th>
-						<th>Opções</th>
-					</tr>
-				</thead>
-				<tbody>
+			<button type="submit" class="btn btn-primary">Cadastrar</button>
+		</form>
+		<br>
+		<br>
+		<div class="grupos" th:remove="${event.id} == null ? all">
+			<p class="text-uppercase"> Grupos do Evento </p>
+			<a class="btn btn-primary btn-sm" th:href="@{/group/edit(id=null, idEvent=${event.id})}">Criar Grupo</a>
 
-					<tr th:each="group : ${event.groups}">
-						<td th:text="${group.id}"></td>
-						<td th:text="${group.name}"></td>
+		
+				<table class="table table-striped">
+					<thead th:remove="${eventGroups.isEmpty}  ? all">
+						<tr>
+							<th>ID</th>
+							<th>Nome</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="group : ${event.groups}">
+							<td th:text="${group.id}"></td>
+							<td th:text="${group.name}"></td>
+							<td><a class="btn btn-primary btn-sm"
+									th:href="@{/group/edit(id=${group.id},idEvent=${event.id})}">Editar</a></td>
+							<td><a class="btn btn-primary btn-sm"
+									th:href="@{/group/delete(id=${group.id},idEvent=${event.id})}">Excluir</a></td>
+
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Nome</th>
+										<th>4 Letras</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="guest : ${group.guests}">
+										<td th:text="${guest.name}"></td>
+										<td th:text="${guest.fourLetters}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</tr>
+					</tbody>
+				</table>
+		
+		</div>
+		<br>
+		<br>
+		<div class="atividades" th:remove="${event.id} == null ? all">
+			<p class="text-uppercase"> Atividades do Evento </p>
+			<a class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=null, idEvent=${event.id})}">Criar
+				Atividade</a>
+			<table class="table table-striped">
+				<thead th:remove="${eventActivities.isEmpty}  ? all">
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Opções</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="activity : ${eventActivities}">
+						<td th:text="${activity.id}"></td>
+						<td th:text="${activity.name}"></td>
 						<td><a class="btn btn-primary btn-sm"
-								th:href="@{/group/edit(id=${group.id},idEvent=${event.id})}">Editar</a></td>
+								th:href="@{/activity/edit(id=${activity.id},idEvent=${event.id})}">Editar</a></td>
 						<td><a class="btn btn-primary btn-sm"
-								th:href="@{/group/delete(id=${group.id},idEvent=${event.id})}">Excluir</a></td>
+								th:href="@{/activity/delete(id=${activity.id},idEvent=${event.id})}">Excluir</a></td>
 					</tr>
 				</tbody>
 			</table>
-			<br>
-			
-		</form>-->
+		</div>
+	</div>
+	<br>
+</div>
 </div>
 <div layout:fragment="scripts">
 	<script>
@@ -125,5 +122,7 @@
 		});
 	</script>
 </div>
+
+
 
 </html>

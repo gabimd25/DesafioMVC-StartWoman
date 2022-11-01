@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo4.gft.entities.Event;
-import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.repositories.EventRepository;
 import com.grupo4.gft.repositories.GroupRepository;
 
@@ -20,8 +19,13 @@ public class EventService {
 	@Autowired
 	private GroupRepository groupEventRepository;
 
-	public void saveEvent(Event event) {
-		eventRepository.save(event);
+	public void saveEvent(Event event) throws Exception {
+		boolean endStart= event.getEndDate().before(event.getStartDate());
+		if(endStart) 
+			throw new Exception("Evento não pode ser salvo");
+			
+		eventRepository.save(event);	
+				
 	}
 
 	public void deleteEvent(Long id) {

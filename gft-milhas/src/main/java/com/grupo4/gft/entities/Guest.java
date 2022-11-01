@@ -29,6 +29,7 @@ public class Guest {
 	
 	@NotEmpty(message="Quatro letras não pode ser vazio")
 	@Size(min=4, max=4, message="Deve ter quatro letras")
+	@Column(nullable = false, unique = true)
 	private String fourLetters;
 
 	public Long getId() {

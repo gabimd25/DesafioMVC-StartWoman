@@ -6,7 +6,7 @@
 	 <div class="alert alert-primary" th:if="${#lists.isEmpty(list)}">	
 	 	Nenhuma Atividade encontrado
 	</div>
-	<div class="alert alert-primary" th:if="${mensagem != null}" th:text=="${mensagem}"></div>
+	<div class="alert alert-primary" th:if="${message != null}" th:text=="${message}"></div>
 	<div class="card mb-3">
 		<div class="card-header">
 			<p class="text-primary">Filtrar Atividade</p>
@@ -42,7 +42,7 @@
 					<td th:text="${#dates.format(activity.deliveryDate, 'dd/MM/yyyy')}"></td>
 					<td>
 						<a class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=${activity.id})}">Editar</a>
-						<a class="btn btn-primary btn-sm" th:href="@{/activity/excluir(id=${activity.id})}" >Excluir</a>
+						<a class="btn btn-primary btn-sm" th:href="@{/activity/delete(id=${activity.id})}" >Excluir</a>
 					</td>
 				</tr>
 			</tbody>
