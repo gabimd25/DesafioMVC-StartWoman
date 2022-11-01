@@ -98,16 +98,20 @@ public class ActivityController {
 			mv.addObject("activity", activity);
 			return mv;
 		}
-
-		activityService.saveActivity(activity);
+		
+		try {
+			activityService.saveActivity(activity);
+			mv.addObject("message", "Atividade salva com sucesso");
+		}catch(Exception e){
+			mv.addObject("message", e.getMessage());
+		}
 
 		if (novo) {
 			mv.addObject("activity", new Activity());
 		} else {
 			mv.addObject("activity", activity);
 		}
-
-		mv.addObject("message", "Atividade salva com sucesso");
+		
 		// mv.addObject("listGuest", activityService.listAllGuestEvent());
 		mv.addObject("listActivity", activityService.listAllActivities());
 
@@ -129,12 +133,13 @@ public class ActivityController {
 		ModelAndView mv = new ModelAndView("redirect:/activity/list");
 
 		try {
-
 			activityService.deleteActivity(id);
+
 			redirectAttributes.addFlashAttribute("messagem", "Atividade excluido com sucesso");
 
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir Atividade " + e.getMessage());
+
 		}
 
 		return mv;

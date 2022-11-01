@@ -59,8 +59,11 @@ public class GroupController {
 				mv.addObject("message", e.getMessage());
 			}
 		}
+		
 		mv.addObject(group);
 		mv.addObject("listGuest", guestService.listAllGuest());
+		
+		
 		return mv;
 	}
 	
@@ -79,8 +82,13 @@ public class GroupController {
 			mv.addObject("group", group);
 			return mv;
 		}
+		try {
+			groupService.saveGroupEvent(group);
+			mv.addObject("message", "Grupo salvo com sucesso");
+		}catch(Exception e) {
+			mv.addObject("message", e.getMessage());
+		}
 		
-		groupService.saveGroupEvent(group);
 		
 		if(newGroup) {
 			mv.addObject("group", new GroupEvent());
@@ -88,7 +96,7 @@ public class GroupController {
 			mv.addObject("group", group);
 		}
 		
-		mv.addObject("message", "Grupo salvo com sucesso");
+		
 		mv.addObject("listGroup", groupService.listAllGroupEvent());
 		mv.addObject("listGuest", guestService.listAllGuest());
 		
@@ -122,8 +130,8 @@ public class GroupController {
 		
 		
 		return mv;
-		
 	}
+	
 	@RequestMapping("/removeGuest")
 	public ModelAndView removeGuest(@RequestParam Long id,@RequestParam Long idGuest, RedirectAttributes redirectAttributes) {
 		
@@ -162,4 +170,7 @@ public class GroupController {
 		return mv;
 		
 	}
+	
+		
+
 }

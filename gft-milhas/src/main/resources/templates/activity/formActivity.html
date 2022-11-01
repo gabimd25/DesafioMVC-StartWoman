@@ -3,8 +3,10 @@
 	layout:decorate="~{layout.html}">
 <meta charset="UTF-8">
 <div layout:fragment="content">
+
 	<div class="alert alert-primary" th:if="${mensagem != null}" th:text=="${mensagem}">
 		Nenhuma atividade cadastrada
+
 	</div>
 	<div class="card">
 		<div class="card-header">
@@ -14,6 +16,10 @@
 	<div class="card-body">
 		<form method="post" th:object="${activity}" th:action="@{/activity/edit}">
 			<input type="hidden" th:field="*{event}"></input>
+
+		<input type="hidden" th:field="*{id}">
+		<input type="hidden" th:field="*{event}">
+
 			<div class="form-group mb-3">
 				<label for="name">Nome</label>
 				<input class="form-control" type="text" th:field="*{name}" required></input>
@@ -27,7 +33,7 @@
 			</div>
 			<div class="form-group mb-3">
 				<label for="deliveryDate">Data final</label>
-				<input class="form-control" type="text" id="_endDate"></input>
+				<input class="form-control" type="text" id="_deliveryDate"></input>
 				<input type="hidden" th:field="*{deliveryDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('deliveryDate')}" th:errors="*{deliveryDate}"></div>
 			</div>
@@ -43,8 +49,9 @@
 				<!--<td><a class="btn btn-primary btn-sm" th:href="@{/group/addGuest(id=${groupEvent.id},guestList=${guest.id})}">Adicionar
                 ParticipanteT</a></td>-->
 			</div>
-			<a class="btn btn-primary" >Voltar</a>
+			<!--<a class="btn btn-primary btn-sm" th:href="@{/event/edit?(id=${activity.event.id})}">Voltar</a>-->
 		</form>
+
 	</div>
 	
 </div>
@@ -62,7 +69,7 @@
 			$("#_deliveryDate").datepicker({
 				dateFormat: "dd/mm/yy",
 				altFormat: "yy-mm-dd",
-				altField: "#endDate"
+				altField: "#deliveryDate"
 			});
 		});
 	</script>

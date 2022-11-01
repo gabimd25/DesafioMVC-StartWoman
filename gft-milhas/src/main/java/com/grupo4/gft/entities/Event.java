@@ -90,6 +90,10 @@ public class Event {
 		this.groups.add(group);
 	}
 
+	
+	
+	
+
 }
 	
 	

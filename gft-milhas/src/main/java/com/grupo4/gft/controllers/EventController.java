@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grupo4.gft.entities.Event;
-
 import com.grupo4.gft.servicies.EventService;
 
 @Controller
@@ -41,11 +40,13 @@ public class EventController {
 				mv.addObject("message", e.getMessage());
 			}
 		}
+		
 		mv.addObject(event);
+
 		mv.addObject("eventGroups", event.getGroups());
 		mv.addObject("eventActivities", event.getActivities());
 		return mv;
-		
+
 		
 	}
 	
@@ -65,7 +66,13 @@ public class EventController {
 			return mv;
 		}
 		
-		eventService.saveEvent(event);
+		try {
+			eventService.saveEvent(event);
+			mv.addObject("message", "Evento salvo com sucesso");
+		}catch(Exception e){
+			mv.addObject("message", e.getMessage());
+		}
+		
 		
 		if(novo) {
 			mv.addObject("event", new Event());
@@ -73,7 +80,6 @@ public class EventController {
 			mv.addObject("event", event);
 		}
 		
-		mv.addObject("message", "Evento salvo com sucesso");
 		mv.addObject("listEvent", eventService.listAllEvent());
 		
 		return mv;

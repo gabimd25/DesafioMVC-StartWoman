@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo4.gft.entities.Activity;
-import com.grupo4.gft.entities.Guest;
+import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.repositories.ActivityRepository;
-import com.grupo4.gft.repositories.GroupRepository;
+
+
 
 @Service
 public class ActivityService {
@@ -17,11 +18,24 @@ public class ActivityService {
 	@Autowired
 	private ActivityRepository activityRepository;
 	
-	@Autowired
-	private GroupRepository groupRepository;
 
-	public void saveActivity(Activity activity) {
+
+	public void saveActivity(Activity activity) throws Exception{
+		
+		Event event = activity.getEvent();
+
+		boolean isDeliveryDateBeforeActivityStart= activity.getDeliveryDate().before(activity.getStartDate());
+        boolean isActivityStartBeforeStartEvent = activity.getStartDate().before(event.getStartDate());
+		boolean isActivityStartAfterEndEvent = activity.getStartDate().after(event.getEndDate());
+		boolean isActivityEndBeforeStartEvent = activity.getDeliveryDate().before(event.getStartDate());
+		boolean isActivityEndBeforeEndEvent = activity.getDeliveryDate().after(event.getEndDate());
+		
+
+		if(isDeliveryDateBeforeActivityStart || isActivityStartBeforeStartEvent || isActivityStartAfterEndEvent || isActivityEndBeforeStartEvent|| isActivityEndBeforeEndEvent)
+			throw new Exception("Atividade não pode ser salva");
+		
 		activityRepository.save(activity);
+
 	}
 
 	public void deleteActivity(Long id) {

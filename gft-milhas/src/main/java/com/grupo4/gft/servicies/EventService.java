@@ -19,8 +19,13 @@ public class EventService {
 	@Autowired
 	private GroupRepository groupRepository;
 
-	public void saveEvent(Event event) {
-		eventRepository.save(event);
+	public void saveEvent(Event event) throws Exception {
+		boolean endStart= event.getEndDate().before(event.getStartDate());
+		if(endStart) 
+			throw new Exception("Evento não pode ser salvo");
+			
+		eventRepository.save(event);	
+				
 	}
 
 	public void deleteEvent(Long id) {
