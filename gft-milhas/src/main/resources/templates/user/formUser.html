@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<title> Cadastrar Usuario </title>
+</head>
+
+<body>
+	<div class="container">
+		<div>
+			<div class="alert alert-primary" th:if="${mensagem != null}" th:text=="${mensagem}">
+
+			</div>
+			<div class="card">
+				<div class="card-header">
+					<p class="text-primary">Novo Usuario</p>
+				</div>
+				<div class="card-body">
+					<form method="POST" th:action="@{/user/new}" th:object="${user}">
+						<input type="hidden" th:field="*{id}">
+						<div class="form-group mb-3">
+							<label for="name">Nome: </label>
+							<input class="form-control" type="text" th:field="*{name}" required></input>
+							<div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="email">Email: </label>
+							<input class="form-control" type="email" th:field="*{email}" required></input>
+							<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="fourletters">Quatro Letras: </label>
+							<input class="form-control" type="text" th:field="*{fourletters}" maxlength="4"
+								required></input>
+							<div class="text-danger" th:if="${#fields.hasErrors('fourletters')}"
+								th:errors="*{fourletters}">
+							</div>
+						</div>
+
+						<div class="form-group mb-3">
+							<label for="password">Password: </label>
+							<input class="form-control" type="text" th:field="*{password}" required></input>
+							<div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+							</div>
+						</div>
+						<div class="form-group mb-3">
+							<a th:href="@{/login}"> clique aqui, para fazer Login</a>
+						</div>
+						<button type="submit" class="btn btn-primary">Gravar usuario</button>
+
+					</form>
+				</div><!-- /card-body -->
+			</div><!-- /card -->
+		</div>
+	</div> <!-- /container -->
+</body>
+
+</html>

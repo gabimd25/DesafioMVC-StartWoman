@@ -1,13 +1,12 @@
 package com.grupo4.gft.servicies;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.grupo4.gft.entities.Activity;
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.entities.Guest;
@@ -22,6 +21,9 @@ public class GroupService {
 	@Autowired
 	private GuestService guestService;
 
+	
+	@Autowired
+	private EventService eventService;
 
 	public void saveGroupEvent(GroupEvent groupEvent) throws Exception {
 
@@ -47,18 +49,6 @@ public class GroupService {
 	public List<GroupEvent> listAllGroupEvent() {
 		return groupEventRepository.findAll();
 	}
-	
-	public List<GroupEvent> listAllGroupEventByScore() {
-		List<GroupEvent> groups = groupEventRepository.findAll();
-			    
-	    Comparator<GroupEvent> sortByScore = (t1, t2) -> t1.getScoreTotal().compareTo(t2.getScoreTotal());
-	    List<GroupEvent> sortByScoreList = groups.stream().sorted(sortByScore).collect(Collectors.toList());
-	    Comparator<GroupEvent> sortByScoreReverse = sortByScore.reversed();
-
-		sortByScoreList = groups.stream().sorted(sortByScoreReverse).collect(Collectors.toList());
-	
-		return sortByScoreList;
-	}
 
 	public List<GroupEvent> findGroupEvent(String name) {
 
@@ -79,21 +69,75 @@ public class GroupService {
 	}
 
 	public void checkGuestUniqueInEvent(GroupEvent groupEvent) throws Exception {
-		
+
 		Event event = groupEvent.getEvent();
-		List<GroupEvent>groups = event.getGroups();
+
 		for (Guest newGuest : groupEvent.getGuests()) {
-			for (GroupEvent group : groups) {
-				if(group.getId()!=groupEvent.getId()) {
-					for (Guest guest : group.getGuests()) {
-						if (newGuest.getId() == guest.getId()) {
-							throw new Exception("Participante ja existe em outro grupo");
-						}
+			for (GroupEvent group : event.getGroups()) {
+				for (Guest guest : group.getGuests()) {
+					if (newGuest.getId() == guest.getId()) {
+						throw new Exception("Participante ja existe em outro grupo");
+
 					}
 				}
-				
 			}
 		}
 
 	}
+
+	public void addGuest(Long id, Long idGuest) {
+		GroupEvent groupEvent;
+		Guest guest;
+
+		try {
+			groupEvent = getGroupEvent(id);
+			guest = guestService.getGuest(idGuest);
+
+			groupEvent.addGuest(guest);
+			groupEventRepository.save(groupEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addGuest2(Long id, List<Guest> guestList) {
+		GroupEvent groupEvent;
+		try {
+
+			groupEvent = getGroupEvent(id);
+			groupEvent.addGuest(guestList);
+			groupEventRepository.save(groupEvent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addFinishedActivithScoreInGrupo(GroupEvent groupEvent) throws Exception {
+
+		List<Guest> listGuestsGroup = groupEvent.getGuests();
+
+		Long idEventGroup = groupEvent.getEvent().getId();
+
+		// encontrar o evento atraves de id
+		Event eventOfGroup = eventService.getEvent(idEventGroup);
+
+		// evento encontra as atividades
+		List<Activity> listActivityEvent = eventOfGroup.getActivities();
+
+		//Boolean allGuestFinishedActivity = true;
+
+		for (Activity activity : listActivityEvent) {
+			for (Guest guest : activity.getGuestsFinished()) {
+				for (Guest guestGroup : listGuestsGroup) {
+					if (guest.getId() == guestGroup.getId()) {
+						groupEvent.setScoreActivity((long) groupEvent.getScoreActivity() + 5);
+					}
+				}
+			}
+
+		}
+		
+	}
+	
+
 }

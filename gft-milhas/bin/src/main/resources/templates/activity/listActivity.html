@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
+<div layout:fragment="content">
+	 <div class="alert alert-primary" th:if="${#lists.isEmpty(list)}">	
+	 	Nenhuma Atividade encontrado
+	</div>
+	<div class="alert alert-primary" th:if="${message != null}" th:text=="${message}"></div>
+	<div class="card mb-3">
+		<div class="card-header">
+			<p class="text-primary">Filtrar Atividade</p>
+		</div>
+		<div class="card-body">
+		<form method="GET">
+			<div class="form-group mb-3">
+					<label for="name">Nome: </label>
+					<input class="form-control" type="text" name="name" th:value"${name}"></input>
+			</div>
+			
+		<button type="submit" class="btn btn-primary">Pesquisar Atividade</button>
+		</form>
+		</div>
+	</div>
+	<div th:if="${not #lists.isEmpty(list)}">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Data inicial</th>
+					<th>Data final</th>
+					<th>Opções</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="activity : ${list}">
+					<td th:text="${activity.id}"></td>
+					<td th:text="${activity.name}"></td>
+					<td th:text="${#dates.format(activity.startDate, 'dd/MM/yyyy')}"></td>
+					<td th:text="${#dates.format(activity.deliveryDate, 'dd/MM/yyyy')}"></td>
+					<td>
+						<a class="btn btn-primary btn-sm" th:href="@{/activity/edit(id=${activity.id})}">Editar</a>
+						<a class="btn btn-primary btn-sm" th:href="@{/activity/delete(id=${activity.id})}" >Excluir</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+</html>
