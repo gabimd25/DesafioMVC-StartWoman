@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
-import com.grupo4.gft.entities.Guest;
 import com.grupo4.gft.servicies.EventService;
 import com.grupo4.gft.servicies.GroupService;
 import com.grupo4.gft.servicies.GuestService;
@@ -92,15 +91,6 @@ public class GroupController {
 		
 	}
 	
-	/*@RequestMapping("list")
-	public ModelAndView listGroup(String name) {
-		ModelAndView mv = new ModelAndView("event/edit.html");
-		
-		mv.addObject("listGroup", groupService.findGroupEvent(name));
-		
-		return mv;
-	}*/
-	
 	@RequestMapping("/delete")
 	public ModelAndView deleteGroup(@RequestParam Long id,@RequestParam Long idEvent, RedirectAttributes redirectAttributes) {
 		
@@ -139,25 +129,7 @@ public class GroupController {
 		return mv;
 		
 	}
-	@RequestMapping("/addGuest")
-	public ModelAndView addGuest(@RequestParam Long id,@RequestParam List<Guest> guestList, RedirectAttributes redirectAttributes) {
-		
-		ModelAndView mv= new ModelAndView("redirect:/group/edit?id="+id);
-		
-		
-		try {
-			
-			groupService.addGuest2(id, guestList);
-			redirectAttributes.addFlashAttribute("messagem", "Participante adicionado com sucesso");
-			
-		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("messagem", "Erro ao adicionar participante " +e.getMessage());
-		}
-		
-		
-		return mv;
-		
-	}
+	
 	@RequestMapping("/ranking")
 	public ModelAndView ranking(RedirectAttributes redirectAttributes) {
 		

@@ -33,7 +33,6 @@
 			</div>
 
 			<table class="table">
-<!--				<tbody>-->
 
 					<tr th:each="group, ind1 : ${groups}">
 
@@ -49,7 +48,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								<!--<tr th:each="guest : ${group.guests}">-->
 								<tr th:each="guest, ind2: ${group.guests}">
 									<div class="form-group mb-3">
 										<td th:text="${group.guests[__${ind2.index}__].name}"></td>
@@ -82,7 +80,6 @@
 							</tbody>
 						</table>
 					</tr>
-<!--				</tbody>-->
 			</table>
 			<td><a class="btn btn-primary btn-sm" th:href="@{/event/edit?(id=${attendance.event.id})}">Voltar</a></td>
 			<button type="submit" class="btn btn-primary" th:onclick="update()">Salvar Presença</button>

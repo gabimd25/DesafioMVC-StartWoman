@@ -86,12 +86,6 @@ public class ActivityController {
 
        ModelAndView mv = new ModelAndView("activity/formActivity.html");
 
-       boolean novo = true;
-
-       if (activity.getId() != null) {
-            novo = false;
-        }
-
        if (bindingResult.hasErrors()) {
             mv.addObject("activity", activity);
             return mv;
@@ -104,14 +98,8 @@ public class ActivityController {
         }catch(Exception e){
             mv.addObject("message", e.getMessage());
         }
-
-       /*if (novo) {
-            mv.addObject("activity", new Activity());
-        } else {
-           
-        }     */  
+ 
         mv.addObject(activity);
-        //mv.addObject("listActivity", activityService.listAllActivities());
 
        return mv;
     }

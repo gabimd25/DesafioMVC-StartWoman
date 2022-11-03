@@ -22,7 +22,6 @@ public class GuestController {
 	private GuestService guestService;
 	
 	
-	
 	@RequestMapping(path="edit")
 	public ModelAndView editGuest(@RequestParam (required=false) Long id) {
 		

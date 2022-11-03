@@ -10,8 +10,6 @@ import com.grupo4.gft.entities.Activity;
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.repositories.ActivityRepository;
 
-
-
 @Service
 public class ActivityService {
 	

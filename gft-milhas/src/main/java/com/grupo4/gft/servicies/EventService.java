@@ -127,10 +127,8 @@ public class EventService {
 
 	public void addFinishedActivityScoreInGrupo(Event event) throws Exception {
 
-		// evento encontra as atividades
 		List<Activity> listActivityEvent = event.getActivities();
 
-		//Boolean allGuestFinishedActivity = true;
 		for(Activity activity : listActivityEvent) {
 			for(GroupEvent groupEvent : event.getGroups()) {
 				int scoreActivity=0, cont=0;

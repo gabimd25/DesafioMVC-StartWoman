@@ -1,8 +1,5 @@
 package com.grupo4.gft.servicies;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +8,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.grupo4.gft.entities.Activity;
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.entities.Guest;
@@ -26,9 +22,6 @@ public class GroupService {
 	@Autowired
 	private GuestService guestService;
 
-	
-	@Autowired
-	private EventService eventService;
 
 	public void saveGroupEvent(GroupEvent groupEvent) throws Exception {
 
@@ -56,7 +49,6 @@ public class GroupService {
 	}
 	
 	public List<GroupEvent> listAllGroupEventByScore() {
-		//List<GroupEvent> groups = groupEventRepository.findAll();
 		List<GroupEvent> groups = groupEventRepository.findAll();
 			    
 	    Comparator<GroupEvent> sortByScore = (t1, t2) -> t1.getScoreTotal().compareTo(t2.getScoreTotal());
@@ -104,33 +96,4 @@ public class GroupService {
 		}
 
 	}
-
-	public void addGuest(Long id, Long idGuest) {
-		GroupEvent groupEvent;
-		Guest guest;
-
-		try {
-			groupEvent = getGroupEvent(id);
-			guest = guestService.getGuest(idGuest);
-
-			groupEvent.addGuest(guest);
-			groupEventRepository.save(groupEvent);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void addGuest2(Long id, List<Guest> guestList) {
-		GroupEvent groupEvent;
-		try {
-
-			groupEvent = getGroupEvent(id);
-			groupEvent.addGuest(guestList);
-			groupEventRepository.save(groupEvent);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-
 }

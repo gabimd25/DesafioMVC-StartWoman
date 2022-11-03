@@ -16,8 +16,8 @@
 	<div class="card-body">
 		<form method="post" th:object="${activity}" th:action="@{/activity/edit}">
 
-		<input type="hidden" th:field="*{id}">
-		<input type="hidden" th:field="*{event}">
+			<input type="hidden" th:field="*{id}">
+			<input type="hidden" th:field="*{event}">
 
 			<div class="form-group mb-3">
 				<label for="name">Nome</label>
@@ -26,14 +26,16 @@
 			</div>
 			<div class="form-group mb-3">
 				<label for="startDate">Data inicial</label>
-				<tr th:text="': '+${#dates.format(activity.startDate, 'dd/MM/yyyy')}" th:if="${activity.id != null}"></tr>
+				<tr th:text="': '+${#dates.format(activity.startDate, 'dd/MM/yyyy')}" th:if="${activity.id != null}">
+				</tr>
 				<input class="form-control" type="text" id="_startDate"></input>
 				<input type="hidden" th:field="*{startDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
 			</div>
 			<div class="form-group mb-3">
 				<label for="deliveryDate">Data final</label>
-				<tr th:text="': '+${#dates.format(activity.deliveryDate, 'dd/MM/yyyy')}" th:if="${activity.id != null}"></tr>
+				<tr th:text="': '+${#dates.format(activity.deliveryDate, 'dd/MM/yyyy')}" th:if="${activity.id != null}">
+				</tr>
 				<input class="form-control" type="text" id="_deliveryDate"></input>
 				<input type="hidden" th:field="*{deliveryDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('deliveryDate')}" th:errors="*{deliveryDate}"></div>
@@ -47,14 +49,12 @@
 					<input type="checkbox" th:id="${guest}" th:value="${guest.id}" th:field="*{guestsFinished}"></input>
 					<label th:text="${guest.name}"></label>
 				</div>
-				<!--<td><a class="btn btn-primary btn-sm" th:href="@{/group/addGuest(id=${groupEvent.id},guestList=${guest.id})}">Adicionar
-                ParticipanteT</a></td>-->
+
 			</div>
-			<!--<a class="btn btn-primary btn-sm" th:href="@{/event/edit?(id=${activity.event.id})}">Voltar</a>-->
 		</form>
 
 	</div>
-	
+
 </div>
 
 </div>
