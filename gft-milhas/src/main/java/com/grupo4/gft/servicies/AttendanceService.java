@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.grupo4.gft.entities.Attendance;
+import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.repositories.AttendanceRepository;
 
 @Service
@@ -15,7 +16,11 @@ public class AttendanceService {
 	@Autowired
 	private AttendanceRepository attendanceRepository;
 	
-	public void saveAttendance(Attendance attendance) {
+	public void saveAttendance(Attendance attendance) throws Exception {
+		Event event = attendance.getEvent();
+		
+		if(attendance.getDateAttendance().before(event.getStartDate()) || attendance.getDateAttendance().after(event.getEndDate()))
+			throw new Exception("Presença não pode ser salva");
 		attendanceRepository.save(attendance);
 	}
 	

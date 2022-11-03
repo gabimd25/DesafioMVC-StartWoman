@@ -24,9 +24,9 @@ public class GroupEvent {//Event
 	@ManyToMany
 	private List<Guest> guests = new ArrayList<>();
 	
-	private Long scorePresent;
-	private Long scoreActivity;
-	private Long scoreTotal;
+	private Long scorePresent=(long) 0;
+	private Long scoreActivity=(long) 0;
+	private Long scoreTotal=(long) 0;
 
 	@ManyToOne
 	@JoinColumn(name="EVENT_ID")
