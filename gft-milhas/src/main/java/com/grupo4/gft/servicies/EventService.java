@@ -13,6 +13,8 @@ import com.grupo4.gft.entities.Attendance;
 import com.grupo4.gft.entities.Event;
 import com.grupo4.gft.entities.GroupEvent;
 import com.grupo4.gft.entities.Guest;
+import com.grupo4.gft.repositories.ActivityRepository;
+import com.grupo4.gft.repositories.AttendanceRepository;
 import com.grupo4.gft.repositories.EventRepository;
 import com.grupo4.gft.repositories.GroupEventRepository;
 
@@ -24,6 +26,10 @@ public class EventService {
 
 	@Autowired
 	private GroupEventRepository groupEventRepository;
+	@Autowired
+	private AttendanceRepository attendanceRepository;
+	@Autowired
+	private ActivityRepository activityRepository;
 
 	public void saveEvent(Event event) throws Exception {
 		boolean endStart = event.getEndDate().before(event.getStartDate());
@@ -35,7 +41,20 @@ public class EventService {
 	}
 
 	public void deleteEvent(Long id) {
-		eventRepository.deleteById(id);
+		Event event;
+		try {
+			event = getEvent(id);
+			if(event.getGroups()!=null)
+				groupEventRepository.deleteAll(event.getGroups());
+			if(event.getAttendances()!=null)
+				attendanceRepository.deleteAll(event.getAttendances());
+			if(event.getActivities()!=null)
+				activityRepository.deleteAll(event.getActivities());
+			eventRepository.deleteById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public Event getEvent(Long id) throws Exception {
@@ -106,7 +125,7 @@ public class EventService {
 
 	}
 
-	public void addFinishedActivithScoreInGrupo2(Event event) throws Exception {
+	public void addFinishedActivityScoreInGrupo(Event event) throws Exception {
 
 		// evento encontra as atividades
 		List<Activity> listActivityEvent = event.getActivities();

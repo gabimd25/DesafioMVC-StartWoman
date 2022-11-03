@@ -13,6 +13,7 @@
 	</div>
 	<div class="card-body">
 		<form method="post" th:object="${groupEvent}" th:action="@{/group/edit}">
+		<input type="hidden" th:field="*{id}">
 			<div class="form-group mb-3">
 				<label for="name">Nome</label>
 				<input class="form-control" type="text" th:field="*{name}" required></input>

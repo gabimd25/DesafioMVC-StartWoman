@@ -68,34 +68,22 @@ public class GroupController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path="edit")
-	public ModelAndView saveGroup(@Valid GroupEvent group, BindingResult bindingResult) {
+	public ModelAndView saveGroup(@Valid GroupEvent groupEvent, BindingResult bindingResult) {
 		
 		ModelAndView mv = new ModelAndView("group/formGroup.html");
 		
-		boolean newGroup= true;
-		
-		if(group.getId() != null) {
-			newGroup= false;
-		}
-		
 		if(bindingResult.hasErrors()) {
-			mv.addObject("group", group);
+			mv.addObject("groupEvent", groupEvent);
 			return mv;
 		}
+		
 		try {
-			groupService.saveGroupEvent(group);
+			groupService.saveGroupEvent(groupEvent);
+			mv.addObject("groupEvent", groupEvent);
 			mv.addObject("message", "Grupo salvo com sucesso");
 		}catch(Exception e) {
-			mv.addObject("message", e.getMessage());
+			mv.addObject("message", e.getMessage());			
 		}
-		
-		
-		if(newGroup) {
-			mv.addObject("group", new GroupEvent());
-		}else {
-			mv.addObject("group", group);
-		}
-		
 		
 		mv.addObject("listGroup", groupService.listAllGroupEvent());
 		mv.addObject("listGuest", guestService.listAllGuest());
@@ -167,6 +155,16 @@ public class GroupController {
 		}
 		
 		
+		return mv;
+		
+	}
+	@RequestMapping("/ranking")
+	public ModelAndView ranking(RedirectAttributes redirectAttributes) {
+		
+		ModelAndView mv= new ModelAndView("group/ranking.html");
+		List<GroupEvent> listGroups= groupService.listAllGroupEventByScore();
+		
+		mv.addObject("listGroups", listGroups);
 		return mv;
 		
 	}

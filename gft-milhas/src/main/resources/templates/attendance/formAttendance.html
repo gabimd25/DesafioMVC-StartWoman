@@ -13,11 +13,13 @@
 	</div>
 	<div class="card-body">
 		<form method="post" th:object="${attendance}" th:action="@{/attendance/edit}">
+			<input type="hidden" th:field="*{id}"></input>
 			<div class="form-group mb-3">
 				<input type="hidden" th:field="*{event}"></input>
 			</div>
 			<div class="form-group mb-3">
 				<label for="dateAttendance">Data inicial</label>
+				<tr th:text="': '+${#dates.format(attendance.dateAttendance, 'dd/MM/yyyy')}" th:if="${attendance.id != null}"></tr>
 				<input class="form-control" type="text" id="_dateAttendance"></input>
 				<input type="hidden" th:field="*{dateAttendance}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('dateAttendance')}" th:errors="*{dateAttendance}">
@@ -82,6 +84,7 @@
 					</tr>
 <!--				</tbody>-->
 			</table>
+			<td><a class="btn btn-primary btn-sm" th:href="@{/event/edit?(id=${attendance.event.id})}">Voltar</a></td>
 			<button type="submit" class="btn btn-primary" th:onclick="update()">Salvar Presença</button>
 		</form>
 	</div>
