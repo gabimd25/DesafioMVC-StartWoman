@@ -85,27 +85,30 @@ public class AttendanceController {
 		
 		ModelAndView mv = new ModelAndView("attendance/formAttendance.html");
 		
+		boolean newAttendance= true;
+		
+		mv.addObject("attendance", attendance);
+		if(attendance!= null) {
+			newAttendance= false;
+		}
+		
 		if(bindingResult.hasErrors()) {
 			mv.addObject("attendance", attendance);
 			return mv;
 		}
 		
-		try {
-			
-			attendanceService.saveAttendance(attendance);
-			eventService.updateScore(attendance.getEvent());
-			mv = new ModelAndView("redirect:/event/edit?id="+attendance.getEvent().getId());
-		}catch(Exception e) {
-			mv.addObject("message", e.getMessage());			
+		
+		attendanceService.saveAttendance(attendance);
+		eventService.updateScore(attendance.getEvent());
+		
+		if(newAttendance) {
+			mv.addObject("attendance", new Attendance());
+		}else {
+			mv.addObject("attendance", attendance);
 		}
-		if(attendance.getId() != null) {
-			try {
-				attendance.setDateAttendance(attendanceService.getAttendance(attendance.getId()).getDateAttendance());
-			} catch (Exception e) {
-				mv.addObject("message", e.getMessage());	
-			}
-		}
-		mv.addObject(attendance);
+		
+		mv.addObject("message", "Presença salva com sucesso");
+		
 		return mv;
 		
 	}
@@ -113,6 +116,8 @@ public class AttendanceController {
 	
 	@RequestMapping("/delete")
 	public ModelAndView deleteAttendance(@RequestParam Long id,@RequestParam Long idEvent, RedirectAttributes redirectAttributes) {
+		
+		
 		
 		try {
 			Event event=eventService.getEvent(idEvent);

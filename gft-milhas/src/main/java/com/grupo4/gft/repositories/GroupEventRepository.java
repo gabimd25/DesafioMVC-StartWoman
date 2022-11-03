@@ -8,4 +8,5 @@ import com.grupo4.gft.entities.GroupEvent;
 @Repository
 public interface GroupEventRepository extends JpaRepository<GroupEvent, Long> {
 
+	public GroupEvent findByName(String name);
 }

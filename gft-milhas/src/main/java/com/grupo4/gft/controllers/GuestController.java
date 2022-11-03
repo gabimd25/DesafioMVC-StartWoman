@@ -22,6 +22,7 @@ public class GuestController {
 	private GuestService guestService;
 	
 	
+	
 	@RequestMapping(path="edit")
 	public ModelAndView editGuest(@RequestParam (required=false) Long id) {
 		
@@ -61,13 +62,8 @@ public class GuestController {
 			mv.addObject("guest", guest);
 			return mv;
 		}
-		try {
-			guestService.saveGuest(guest);
-			mv.addObject("message", "Participante salvo com sucesso");
-		}catch(Exception e) {
-			mv.addObject("message", e.getMessage());
-		}
 		
+		guestService.saveGuest(guest);
 		
 		if(novo) {
 			mv.addObject("guest", new Guest());
@@ -75,6 +71,7 @@ public class GuestController {
 			mv.addObject("guest", guest);
 		}
 		
+		mv.addObject("message", "Participante salvo com sucesso");
 		mv.addObject("listGuest", guestService.listAllGuest());
 		
 		return mv;

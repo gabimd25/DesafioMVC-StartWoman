@@ -41,68 +41,83 @@ public class ActivityController {
 	}
 
 	@RequestMapping(path = "/edit")
-    public ModelAndView editActivity(@RequestParam(required = false) Long id, @RequestParam(required = false) Long idEvent) {
+	public ModelAndView editActivity(@RequestParam(required = false) Long id,
+			@RequestParam(required = false) Long idEvent) {
 
-       ModelAndView mv = new ModelAndView("activity/formActivity.html");
+		ModelAndView mv = new ModelAndView("activity/formActivity.html");
 
-       Activity activity;
-        Event event;
-        List<Guest> listGuestsEvent = new ArrayList<>();
-        
-        try {
-            List<GroupEvent> listGroupEvent = eventService.getEvent(idEvent).getGroups();
-           listGroupEvent.forEach((groupEvent) -> {
-                listGuestsEvent.addAll(groupEvent.getGuests());
-            });
-        }catch (Exception e) {
-            mv.addObject("message", e.getMessage());
-        }
+		Activity activity;
+		Event event;
+		List<Guest> listGuestsEvent = new ArrayList<>();
+		
+		try {
+			List<GroupEvent> listGroupEvent = eventService.getEvent(idEvent).getGroups();
 
-       if (id == null) {
-            activity = new Activity();
-            try {
-                event = eventService.getEvent(idEvent);
-                activity.setEvent(event);
-                
-            } catch (Exception e) {
-                mv.addObject("message", e.getMessage());
-            }
-        } else {
-            try {
-                activity = activityService.getActivity(id);
-            } catch (Exception e) {
-                activity = new Activity();
-                mv.addObject("message", e.getMessage());
-            }
-        }
-        mv.addObject(activity);
-        mv.addObject("listGuestsEvent", listGuestsEvent);
+			listGroupEvent.forEach((groupEvent) -> {
+				listGuestsEvent.addAll(groupEvent.getGuests());
+			});
+		}catch (Exception e) {
+			mv.addObject("message", e.getMessage());
+		}
 
-       return mv;
-    }
+		if (id == null) {
+			activity = new Activity();
+			try {
+				event = eventService.getEvent(idEvent);
+				activity.setEvent(event);
+				
+			} catch (Exception e) {
+				mv.addObject("message", e.getMessage());
+			}
+		} else {
+			try {
+				activity = activityService.getActivity(id);
+			} catch (Exception e) {
+				activity = new Activity();
+				mv.addObject("message", e.getMessage());
+			}
+		}
+		mv.addObject(activity);
+		mv.addObject("listGuestsEvent", listGuestsEvent);
+
+		return mv;
+	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "edit")
-    public ModelAndView saveActivity(@Valid Activity activity, BindingResult bindingResult) {
+	public ModelAndView saveActivity(@Valid Activity activity, BindingResult bindingResult) {
 
-       ModelAndView mv = new ModelAndView("activity/formActivity.html");
+		ModelAndView mv = new ModelAndView("activity/formActivity.html");
 
-       if (bindingResult.hasErrors()) {
-            mv.addObject("activity", activity);
-            return mv;
-        }
-        
-        try {
-            activityService.saveActivity(activity);
-            eventService.addFinishedActivityScoreInGrupo(activity.getEvent());
-            mv = new ModelAndView("redirect:/event/edit?id="+activity.getEvent().getId());
-        }catch(Exception e){
-            mv.addObject("message", e.getMessage());
-        }
- 
-        mv.addObject(activity);
+		boolean novo = true;
 
-       return mv;
-    }
+		if (activity.getId() != null) {
+			novo = false;
+		}
+
+		if (bindingResult.hasErrors()) {
+			mv.addObject("activity", activity);
+			return mv;
+		}
+		
+		try {
+			activityService.saveActivity(activity);
+			eventService.addFinishedActivithScoreInGrupo2(activity.getEvent());
+			mv.addObject("message", "Atividade salva com sucesso");
+		}catch(Exception e){
+			mv.addObject("message", e.getMessage());
+		}
+
+		if (novo) {
+			mv.addObject("activity", new Activity());
+		} else {
+			mv.addObject("activity", activity);
+		}
+		
+		mv.addObject("listActivity", activityService.listAllActivities());
+
+		return mv;
+	}
+
 	@RequestMapping(path = "list")
 	public ModelAndView listActivity(String name) {
 		ModelAndView mv = new ModelAndView("activity/listActivity.html");
@@ -113,9 +128,9 @@ public class ActivityController {
 	}
 
 	@RequestMapping("delete")
-	public ModelAndView deleteActivity(@RequestParam Long id,@RequestParam Long idEvent, RedirectAttributes redirectAttributes) {
+	public ModelAndView deleteActivity(@RequestParam Long id, RedirectAttributes redirectAttributes) {
 
-		ModelAndView mv = new ModelAndView("redirect:/event/edit?id="+idEvent);
+		ModelAndView mv = new ModelAndView("redirect:/activity/list");
 
 		try {
 			activityService.deleteActivity(id);

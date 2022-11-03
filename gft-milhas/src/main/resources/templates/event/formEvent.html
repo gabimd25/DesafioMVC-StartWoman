@@ -15,36 +15,35 @@
 		<form method="post" th:object="${event}" th:action="@{/event/edit}">
 			<input type="hidden" th:field="*{id}">
 			<div class="form-group mb-3">
+				<input type="hidden" th:field="*{id}">
 				<label for="name">Nome</label>
 				<input class="form-control" type="text" th:field="*{name}" required></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 			</div>
 			<div class="form-group mb-3">
 				<label for="startDate">Data inicial </label>
-				<tr th:text="': '+${#dates.format(event.startDate, 'dd/MM/yyyy')}" th:if="${event.id != null}"></tr>
+				<!--				<th text="${#dates.format(event.startDate, 'dd/MM/yyyy')}"></th>-->
 				<input class="form-control" type="text" id="_startDate"></input>
-				<input type="hidden" th:field="*{startDate}" ></input>
+				<input type="hidden" th:field="*{startDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
 			</div>
 			<div class="form-group mb-3">
 				<label for="endDate">Data final</label>
-				<tr th:text="': '+${#dates.format(event.endDate, 'dd/MM/yyyy')}" th:if="${event.id != null}"></tr>
-				<input class="form-control" type="text" id="_endDate" ></input>
+				<input class="form-control" type="text" id="_endDate"></input>
 				<input type="hidden" th:field="*{endDate}"></input>
 				<div class="text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
 			</div>
-			
-			<td><a class="btn btn-primary btn-sm" th:href="@{/event/list}">Voltar</a></td>
+
 			<button type="submit" class="btn btn-primary">Salvar Evento</button>
 
-			<table class="table table-striped" th:remove="${event.id} == null ? all">
+			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th> Registros de Presenças </th>
+						<td> Registros de Presenças </td>
 						<td><a class="btn btn-primary btn-sm"
 								th:href="@{/attendance/edit(id=null, idEvent=${event.id})}">Adicionar Presença</a></td>
 					</tr>
-					<tr th:if="${event.attendances.size}!= 0">
+					<tr>
 						<th>Data</th>
 						<th>Opções</th>
 					</tr>
@@ -61,15 +60,16 @@
 					</tr>
 				</tbody>
 			</table>
-			<table class="table" th:remove="${event.id} == null ? all">
+			<div>
+				<tr>
+					<th> Grupos do Evento </th>
+					<td><a class="btn btn-primary btn-sm" th:href="@{/group/edit(id=null, idEvent=${event.id})}">Criar
+							Grupo</a></td>
+				</tr>
+			</div>
+			<table class="table">
 				<thead>
 					<tr>
-						<th> Grupos do Evento </th>
-						<td><a class="btn btn-primary btn-sm"
-								th:href="@{/group/edit(id=null, idEvent=${event.id})}">Criar
-								Grupo</a></td>
-					</tr>
-					<tr th:if="${event.groups.size}!= 0">
 						<th>ID</th>
 						<th>Nome</th>
 						<th>Pontuação</th>
@@ -99,15 +99,17 @@
 					</ul>
 				</tbody>
 			</table>
-			<table class="table table-striped" th:remove="${event.id} == null ? all">
-				<thead>
+			<div>
 				<tr>
 					<th> Atividades do Evento </th>
 					<td><a class="btn btn-primary btn-sm"
 							th:href="@{/activity/edit(id=null, idEvent=${event.id})}">Criar
 							Atividade</a></td>
 				</tr>
-					<tr th:if="${event.activities.size}!= 0">
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
 						<th>ID</th>
 						<th>Nome</th>
 						<th>Opções</th>

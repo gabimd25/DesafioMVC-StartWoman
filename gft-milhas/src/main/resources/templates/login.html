@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<title>Tela de Login</title>
+
+</head>
+
+
+
+<body>
+	<div class="container">
+		<div>
+			<div class="alert alert-primary" th:if="${mensagem != null}" th:text=="${mensagem}">
+
+			</div>
+			<div class="card">
+				<div class="card-header">
+					<p class="text-primary">Login</p>
+				</div>
+				<div class="card-body">
+					<form   method="POST" th:action="@{/doLogin}" >
+						 <h2 class="form-signin-heading">Por favor, logue-se</h2>
+						<div class="form-group mb-3">
+							<input class="form-control" type="email" name="email"  required >
+							<!--<div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>-->
+							<!--	<strong th:text="${msg}"></strong>-->
+						</div>
+						<div class="form-group mb-3">
+							<input  class="form-control" type="password" name="motdepass" required >
+								<!--<div class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">-->
+							
+						</div>
+						<div class="form-group mb-3">
+							<a th:href="@{/user/new}">Não tem cadastro? clique aqui</a>
+						</div>
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Fazer login</button>
+					</form>
+				</div>
+			</div><!-- /card-body -->
+		</div>
+	</div> <!-- /container -->
+</body>
+
+</html>

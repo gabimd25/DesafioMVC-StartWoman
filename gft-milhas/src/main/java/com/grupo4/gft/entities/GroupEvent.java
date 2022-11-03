@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class GroupEvent {//Event
@@ -24,9 +23,9 @@ public class GroupEvent {//Event
 	@ManyToMany
 	private List<Guest> guests = new ArrayList<>();
 	
-	private Long scorePresent=(long) 0;
-	private Long scoreActivity=(long) 0;
-	private Long scoreTotal=(long) 0;
+	private Long scorePresent;
+	private Long scoreActivity;
+	private Long scoreTotal;
 
 	@ManyToOne
 	@JoinColumn(name="EVENT_ID")
