@@ -13,6 +13,7 @@
 	</div>
 	<div class="card-body">
 		<form method="post" th:object="${groupEvent}" th:action="@{/group/edit}">
+			<input type="hidden" th:field="*{id}">
 			<div class="form-group mb-3">
 				<label for="name">Nome</label>
 				<input class="form-control" type="text" th:field="*{name}" required></input>
@@ -22,24 +23,11 @@
 				<input type="hidden" th:field="*{event}"></input>
 			</div>
 			<td><a class="btn btn-primary btn-sm" th:href="@{/event/edit?(id=${groupEvent.event.id})}">Voltar</a></td>
-			<!--<div class="card mb-3">
-				<div class="card-body">
-					<form method="get">
-						<div class="form-group mb-3">
-							<label for="name">Nome</label>
-							<input class="form-control" type="text" name="name" th:value="${name}"></input>
-						</div>
-						<button type="submit" class="btn btn-primary">Pesquisar Participante</button>
-					</form>
-				</div>
-			</div>-->
 			<button type="submit" class="btn btn-primary">Salvar Grupo</button>
 
 			<div>
 				<tr>
 					<th> Participantes do Grupo </th>
-					<!--<td><a class="btn btn-primary btn-sm" th:href="@{/group/addGuest(id=${groupEvent.id},idGuest=${groupEvent.guest.id})}"> Adicionar
-					Participante1</a></td>-->
 				</tr>
 			</div>
 			<div th:if="${not #lists.isEmpty(groupEvent.guests)}">
@@ -68,15 +56,6 @@
 					</tbody>
 				</table>
 			</div>
-			<!--<div class="card-body">
-				<form method="GET">
-					<div class="form-group mb-3">
-						<label for="name">Nome: </label>
-						<input class="form-control" type="text" name="name" th:value"${name}"></input>
-					</div>
-					<button type="submit" class="btn btn-primary">Pesquisar Participante</button>
-				</form>
-			</div>-->
 			<div class="form-group mb-3">
 				<p>Adicionar Participante:</p>
 
@@ -84,11 +63,8 @@
 					<input type="checkbox" th:id="${guest}" th:value="${guest.id}" th:field="*{guests}" />
 					<label th:text="${guest.name}"></label>
 				</div>
-				<!--<td><a class="btn btn-primary btn-sm" th:href="@{/group/addGuest(id=${groupEvent.id},guestList=${guest.id})}">Adicionar
-				ParticipanteT</a></td>-->
 			</div>
-	
-			
+
 	</div>
 	</form>
 </div>

@@ -8,6 +8,9 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   
+   <!-- incluido par uso de template Login-->
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.mim.css" >
 </head>
 
 <body>
@@ -53,6 +56,12 @@
                         </li>
                     </ul>
                 </div>
+                <!-- incluido par uso de logout-->
+                <form  method="post">
+                       		Bem vindo <span sec:authentication="principal.user" >[[${#httpServletRequest.remoteUser}]]</span>
+                       	
+                            <a class="btn btn-primary btn-sm" value="Logout" sec:authorize="isAuthenticated()"sec:authentication="principal.authoritie"  th:href="@{/group/ranking}">Sair </a> 
+             </form>
             </div>
         </nav>
     </div>

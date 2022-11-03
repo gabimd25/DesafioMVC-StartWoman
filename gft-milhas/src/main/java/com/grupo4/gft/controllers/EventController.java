@@ -22,7 +22,6 @@ public class EventController {
 	private EventService eventService;
 	
 	
-	
 	@RequestMapping(path="edit")
 	public ModelAndView editEvent(@RequestParam (required=false) Long id) {
 		
@@ -42,43 +41,38 @@ public class EventController {
 		}		
 		mv.addObject(event);
 
-		mv.addObject("eventGroups", event.getGroups());
-		mv.addObject("eventActivities", event.getActivities());
 		return mv;
 
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path="edit")
-	public ModelAndView saveEvent(@Valid Event event, BindingResult bindingResult) {
+	public ModelAndView saveEvent(@Valid Event event, BindingResult bindingResult){
 		
 		ModelAndView mv = new ModelAndView("event/formEvent.html");
 		
-		boolean novo= true;
-		
-		if(event.getId() != null) {
-			novo= false;
+		try{
+			eventService.saveEvent(event);
+			if(event.getId() != null)
+				mv = new ModelAndView("redirect:/event/list");
+			mv.addObject("message", "Evento salvo com sucesso");
+		}catch(Exception e){
+			
+			mv.addObject("message", e.getMessage());
 		}
-		
 		if(bindingResult.hasErrors()) {
 			mv.addObject("event", event);
 			return mv;
 		}
-		
-		try {
-			eventService.saveEvent(event);
-			mv.addObject("message", "Evento salvo com sucesso");
-		}catch(Exception e){
-			mv.addObject("message", e.getMessage());
+		if(event.getId()!=null) {
+			try {
+				event.setStartDate(eventService.getEvent(event.getId()).getStartDate());
+				event.setEndDate(eventService.getEvent(event.getId()).getEndDate());
+			} catch (Exception e) {
+				mv.addObject("message", e.getMessage());	
+			}
 		}
 		
-		
-		if(novo) {
-			mv.addObject("event", new Event());
-		}else {
-			mv.addObject("event", event);
-		}
-		
-		mv.addObject("listEvent", eventService.listAllEvent());
+		mv.addObject("event", event);
 		
 		return mv;
 		
@@ -99,26 +93,13 @@ public class EventController {
 		
 		ModelAndView mv= new ModelAndView("redirect:/event/list");
 		
-		
 		try {
-			
-		eventService.deleteEvent(id);
-		redirectAttributes.addFlashAttribute("messagem", "Participante excluido com sucesso");
-			
+			eventService.deleteEvent(id);
+			redirectAttributes.addFlashAttribute("messagem", "Evento excluido com sucesso");
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir participante " +e.getMessage());
+			redirectAttributes.addFlashAttribute("messagem", "Erro ao exluir evento " +e.getMessage());
 		}
-		
-		
 		return mv;
-		
 	}
-	
-	
-	
-		
-	
-	
-	
 
 }

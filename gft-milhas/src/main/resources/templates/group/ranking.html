@@ -30,7 +30,7 @@
 		</div>
 
 	<div class="container2">
-		<div class= "tabela-classificacao" th:if="${not #lists.isEmpty(listGrupo)}">
+		<div class= "tabela-classificacao" th:if="${not #lists.isEmpty(listGroups)}">
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -40,10 +40,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="grupo : ${listGrupo}">
-						<td></td>
+					<tr th:each="group , ind: ${listGroups}">
+						<td th:text="${ind.index}"></td>
 						<td th:text="${group.name}"></td>
-						<td th:text="${group.pontuacao}"></td>
+						<td th:text="${group.scoreTotal}"></td>
 					</tr>
 				</tbody>
 			</table>

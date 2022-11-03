@@ -13,12 +13,6 @@ public class LoginController {
 		return "login";
 	}
 	
-	@GetMapping("/group/ranking")
-	public String rankingPage() {
-		
-		return "/group/ranking";
-	}
-	
 	@GetMapping("/doLogout")
 	public String LogoutPage() {
 		
